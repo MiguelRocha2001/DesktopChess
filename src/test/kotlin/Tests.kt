@@ -1,3 +1,4 @@
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 
 class Tests {
