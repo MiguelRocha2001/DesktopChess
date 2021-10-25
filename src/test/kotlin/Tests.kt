@@ -12,6 +12,7 @@ class Tests {
                     "PPPPPPPP"+
                     "RNBQKBNR", sut.toString() )
     }
+/*
     @Test
     fun `MakeMove in Board`() {
         val sut = Board().makeMove("Pe2e4").makeMove("Pe7e5").makeMove("Nb1c3")
@@ -25,5 +26,7 @@ class Tests {
                     "PPPP PPP"+
                     "R BQKBNR", sut.toString() )
     }
+
+     */
 
 }
