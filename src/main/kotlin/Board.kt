@@ -5,18 +5,17 @@ class Board {
 
     private val LINES = 8
     private val COLS = 8
-    private val board: Array<Array<Piece?>> = Array(LINES) { Array(COLS) { null } }
+    private val board: Array<Array<Piece?>>
 
     constructor() {
+        board = Array(LINES) { Array(COLS) { null } }
         init()
     }
 
-    /*
-    private constructor(board: Map<Pair<Int,Int>,Piece?>) {
+    private constructor(board: Array<Array<Piece?>>) {
         this.board = board
     }
 
-     */
 
     /**
      * Iniciates the board
@@ -30,16 +29,16 @@ class Board {
      * Iniciates the board fo the first player
      */
     private fun initPlayer1() {
-        addPiece(PieceType.r, 8, 1)
-        addPiece(PieceType.n, 8, 2)
-        addPiece(PieceType.b, 8, 3)
-        addPiece(PieceType.q, 8, 4)
-        addPiece(PieceType.k, 8, 5)
-        addPiece(PieceType.b, 8, 6)
-        addPiece(PieceType.n, 8, 7)
-        addPiece(PieceType.r, 8, 8)
-        for (i in 1..8) {
-            addPiece(PieceType.p, 7, i)
+        addPiece(PieceType.r, 7, 0)
+        addPiece(PieceType.n, 7, 1)
+        addPiece(PieceType.b, 7, 2)
+        addPiece(PieceType.q, 7, 3)
+        addPiece(PieceType.k, 7, 4)
+        addPiece(PieceType.b, 7, 5)
+        addPiece(PieceType.n, 7, 6)
+        addPiece(PieceType.r, 7, 7)
+        for (i in 0..7) {
+            addPiece(PieceType.p, 6, i)
         }
     }
 
@@ -47,16 +46,16 @@ class Board {
      * Iniciates the board fo the second player
      */
     private fun initPlayer2() {
-        addPiece(PieceType.R, 1, 1)
-        addPiece(PieceType.N, 1, 2)
-        addPiece(PieceType.B, 1, 3)
-        addPiece(PieceType.Q, 1, 4)
-        addPiece(PieceType.K, 1, 5)
-        addPiece(PieceType.B, 1, 6)
-        addPiece(PieceType.N, 1, 7)
-        addPiece(PieceType.R, 1, 8)
-        for (i in 1..8) {
-            addPiece(PieceType.P, 2, i)
+        addPiece(PieceType.R, 0, 0)
+        addPiece(PieceType.N, 0, 1)
+        addPiece(PieceType.B, 0, 2)
+        addPiece(PieceType.Q, 0, 3)
+        addPiece(PieceType.K, 0, 4)
+        addPiece(PieceType.B, 0, 5)
+        addPiece(PieceType.N, 0, 6)
+        addPiece(PieceType.R, 0, 7)
+        for (i in 0..7) {
+            addPiece(PieceType.P, 1, i)
         }
     }
 
@@ -64,16 +63,17 @@ class Board {
      * Ads a new piece to the boad
      */
     private fun addPiece(type: PieceType, line: Int, col: Int) {
-        board[line-1][col-1] = Piece(type, line, col)
+        board[line][col] = Piece(type, line, col)
     }
 
     /**
      * Indicates if the given line is empty
      */
-    private fun isLineEmpty(line: Int): Boolean {
+    private fun howManyPiecesInLine(line: Int): Int {
+        var count = 0
         for (piece in board[line])
-            if (piece != null) return false
-        return true
+            if (piece != null) ++count
+        return count
     }
 
     /**
@@ -82,7 +82,7 @@ class Board {
     override fun toString(): String {
         var str = ""
         for (line in board.indices) {
-            if (isLineEmpty(line)) {
+            if (howManyPiecesInLine(line) == 0) {
                 str = ' ' + str
                 continue
             }
@@ -90,25 +90,36 @@ class Board {
             for (piece in board[line]) {
                 aux += piece?.type?.toString() ?: ' '
             }
+            // if the line has a single piece, the spaces are eliminated
+            if (howManyPiecesInLine(line) == 1) {
+                aux = aux.trim()
+                aux = ' ' + aux + ' '
+            }
             str = aux + str
         }
         return str
     }
 
-    /*
-    fun makeMove(move: String) {
+
+    fun makeMove(move: String): Board {
         val type = move[0] // type of the piece
-        val piece = board.get(Pair(move[2].toInt(),move[1]-'a')
-        return Board(board + (Pair(move[2].toInt(),move[1]-'a', Piece(move[2].toInt(),move[1]-'a')))
+        val l1 = move[2]-'0'-1
+        val c1 = move[1]-'a'
+        val l2 = move[4]-'0'-1
+        val c2 = move[3]-'a'
+        val piece = board[l1][c1]
+        val newBoard = board.clone()
+        newBoard[l1][c1] = null
+        newBoard[l2][c2] = piece
+        return Board(newBoard)
     }
 
-     */
 }
 
 fun main(args: Array<String>) {
-    println("Hello World!")
-
-    // Try adding program arguments at Run/Debug configuration
-    println("Program arguments: ${args.joinToString()}")
-
+    val arr1 = arrayOf(1,2,3,4,5,6)
+    val arr2 = arr1.copyOf()
+    println(arr1.asList())
+    arr2[2] = 9
+    println(arr2.asList())
 }
