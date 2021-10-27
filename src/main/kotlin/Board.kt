@@ -16,9 +16,8 @@ class Board {
         this.board = board
     }
 
-
     /**
-     * Iniciates the board
+     * Initiates the board
      */
     private fun init() {
         initPlayer1()
@@ -26,7 +25,7 @@ class Board {
     }
 
     /**
-     * Iniciates the board fo the first player
+     * Initiates the board fo the first player, putting all the pieces in position
      */
     private fun initPlayer1() {
         addPiece(PieceType.r, 7, 0)
@@ -43,7 +42,7 @@ class Board {
     }
 
     /**
-     * Iniciates the board fo the second player
+     * Initiates the board fo the second player, putting all the pieces in position
      */
     private fun initPlayer2() {
         addPiece(PieceType.R, 0, 0)
@@ -60,7 +59,7 @@ class Board {
     }
 
     /**
-     * Ads a new piece to the boad
+     * Ads a new piece to the board
      */
     private fun addPiece(type: PieceType, line: Int, col: Int) {
         board[line][col] = Piece(type, line, col)
@@ -117,9 +116,18 @@ class Board {
 }
 
 fun main(args: Array<String>) {
+    /*
     val arr1 = arrayOf(1,2,3,4,5,6)
     val arr2 = arr1.copyOf()
     println(arr1.asList())
     arr2[2] = 9
     println(arr2.asList())
+    println()
+    */
+
+    //white piece array
+    val arrayOfPieceTypes = enumValues<Board.PieceType>()
+    for (i in 0 until arrayOfPieceTypes.size/2) print(arrayOfPieceTypes[i])
+    println()
+    for (i in arrayOfPieceTypes.size/2 until arrayOfPieceTypes.size) print(arrayOfPieceTypes[i])
 }
