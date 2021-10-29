@@ -1,6 +1,11 @@
 fun main() {
     var game = Board()
-    game = game.makeMove(TODO())
+    while (true) {
+        val command = readCommand()
+        if (command != null)
+            game = game.makeMove(command)!!
+        game.toString()
+    }
 }
 
 fun readCommand(): Move? {

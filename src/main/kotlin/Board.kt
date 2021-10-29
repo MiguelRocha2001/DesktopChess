@@ -28,14 +28,14 @@ class Board {
      * Iniciates the board fo the first player
      */
     private fun initPlayer1() {
-        board[7][0] = Rook[7][0]
-        board[7][1] = Knight[7][1]
-        board[7][2] = Bishop[7][2]
-        board[7][3] = Queen[7][3]
-        board[7][4] = King[7][4]
-        board[7][5] = Bishop[7][5]
-        board[7][6] = Knight[7][6]
-        board[7][7] = Rook[7][7]
+        board[7][0] = Rook(7,0)
+        board[7][1] = Knight(7,1)
+        board[7][2] = Bishop(7,2)
+        board[7][3] = Queen(7,3)
+        board[7][4] = King(7,4)
+        board[7][5] = Bishop(7,5)
+        board[7][6] = Knight(7,1)
+        board[7][7] = Rook(7,7)
         for (i in 0..7) {
             board[6][i] = Pawn(6,i)
         }
@@ -45,14 +45,14 @@ class Board {
      * Iniciates the board fo the second player
      */
     private fun initPlayer2() {
-        board[0][0] = Rook[0][0]
-        board[0][1] = Knight[0][1]
-        board[0][2] = Bishop[0][2]
-        board[0][3] = Queen[0][3]
-        board[0][4] = King[0][4]
-        board[0][5] = Bishop[0][5]
-        board[0][6] = Knight[0][6]
-        board[0][7] = Rook[0][7]
+        board[7][0] = Rook(0,0)
+        board[7][1] = Knight(0,1)
+        board[7][2] = Bishop(0,2)
+        board[7][3] = Queen(0,3)
+        board[7][4] = King(0,4)
+        board[7][5] = Bishop(0,5)
+        board[7][6] = Knight(0,1)
+        board[7][7] = Rook(0,7)
         for (i in 0..7) {
             board[1][i] = Pawn(1,i)
         }
