@@ -1,8 +1,7 @@
 
+class Move(val pieceType: Char, val cline: Int, val ccol: Int, val tline: Int, val tcol: Int)
+
 class Board {
-    enum class PieceType { K, Q, B, N, R, P, k, q, b, n, r, p }
-    private class Piece(val type: PieceType, val line: Int, val col: Int)
-    private class Pawn(): Piece
 
     private val LINES = 8
     private val COLS = 8
@@ -102,7 +101,7 @@ class Board {
     }
 
 
-    fun makeMove(move: String): Board {
+    fun makeMove(move: Move): Board {
         val type = move[0] // type of the piece
         when {
             type == 'P' ->
