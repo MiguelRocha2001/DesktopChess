@@ -2,7 +2,6 @@
 class Move(val pieceType: Char, val cline: Int, val ccol: Int, val tline: Int, val tcol: Int)
 
 class Board {
-
     private val LINES = 8
     private val COLS = 8
     private val board: Array<Array<Piece?>>
@@ -29,16 +28,16 @@ class Board {
      * Iniciates the board fo the first player
      */
     private fun initPlayer1() {
-        addPiece(PieceType.r, 7, 0)
-        addPiece(PieceType.n, 7, 1)
-        addPiece(PieceType.b, 7, 2)
-        addPiece(PieceType.q, 7, 3)
-        addPiece(PieceType.k, 7, 4)
-        addPiece(PieceType.b, 7, 5)
-        addPiece(PieceType.n, 7, 6)
-        addPiece(PieceType.r, 7, 7)
+        board[7][0] = Rook[7][0]
+        board[7][1] = Knight[7][1]
+        board[7][2] = Bishop[7][2]
+        board[7][3] = Queen[7][3]
+        board[7][4] = King[7][4]
+        board[7][5] = Bishop[7][5]
+        board[7][6] = Knight[7][6]
+        board[7][7] = Rook[7][7]
         for (i in 0..7) {
-            addPiece(PieceType.p, 6, i)
+            board[6][i] = Pawn(6,i)
         }
     }
 
@@ -46,25 +45,20 @@ class Board {
      * Iniciates the board fo the second player
      */
     private fun initPlayer2() {
-        addPiece(PieceType.R, 0, 0)
-        addPiece(PieceType.N, 0, 1)
-        addPiece(PieceType.B, 0, 2)
-        addPiece(PieceType.Q, 0, 3)
-        addPiece(PieceType.K, 0, 4)
-        addPiece(PieceType.B, 0, 5)
-        addPiece(PieceType.N, 0, 6)
-        addPiece(PieceType.R, 0, 7)
+        board[0][0] = Rook[0][0]
+        board[0][1] = Knight[0][1]
+        board[0][2] = Bishop[0][2]
+        board[0][3] = Queen[0][3]
+        board[0][4] = King[0][4]
+        board[0][5] = Bishop[0][5]
+        board[0][6] = Knight[0][6]
+        board[0][7] = Rook[0][7]
         for (i in 0..7) {
-            addPiece(PieceType.P, 1, i)
+            board[1][i] = Pawn(1,i)
         }
     }
 
-    /**
-     * Ads a new piece to the boad
-     */
-    private fun addPiece(type: PieceType, line: Int, col: Int) {
-        board[line][col] = Piece(type, line, col)
-    }
+
 
     /**
      * Indicates if the given line is empty
@@ -101,36 +95,15 @@ class Board {
     }
 
 
-    fun makeMove(move: Move): Board {
-        val type = move[0] // type of the piece
-        when {
-            type == 'P' ->
-        }
-        val l1 = move[2]-'0'-1
-        val c1 = move[1]-'a'
-        val l2 = move[4]-'0'-1
-        val c2 = move[3]-'a'
-        val piece = board[l1][c1]
+    fun makeMove(move: Move): Board? {
+        val cur = board[move.cline][move.ccol]
+        if (cur == null) return null
+        val new = cur.move(board,move.tline,move.tcol)
+        if (new == null) return null
+        // Creates a new array board
         val newBoard = board.clone()
-        newBoard[l1][c1] = null
-        newBoard[l2][c2] = piece
+        newBoard[move.cline][move.ccol] = null
+        newBoard[move.tline][move.cline] = new
         return Board(newBoard)
     }
-
-    private fun Pawn.move(line: Int, col: Int):  {
-        val curLine = this.line
-        val curCol = this.col
-        when {
-            col != curCol ret
-        }
-    }
-
-}
-
-fun main(args: Array<String>) {
-    val arr1 = arrayOf(1,2,3,4,5,6)
-    val arr2 = arr1.copyOf()
-    println(arr1.asList())
-    arr2[2] = 9
-    println(arr2.asList())
 }
