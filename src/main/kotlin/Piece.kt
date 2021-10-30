@@ -1,15 +1,39 @@
 
-//enum class PieceType { K, Q, B, N, R, P, k, q, b, n, r, p }
+enum class Dir { FRONT, BACK, LEFT, RIGHT, FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT}
+class SpecialMove()
 
-abstract class Piece(val line: Int, val col: Int) {
-    abstract fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean
-    fun move(board: Array<Array<Piece?>>, l: Int, c: Int): Piece? {
-        val new = Pawn(l,c)
-        return if (new.valid(board,this)) new else null
+data class Movement(val dir: Array<Dir>, val maxSteps: Int)
+
+// Esta classe deve apenas ter as caracteristicas de cada peça como por exemplo a dforma como elas se podem deslocar mas não deve saber nada do tabuleiro.
+// A classe Board é que deve mover as peças e verificar se a movimentção é valida
+abstract class Piece()
+
+
+fun Piece.toString(): String {
+    return when(this) {
+        is Pawn -> "P"
+        is Knight -> "N"
+        is Bishop -> "B"
+        is Rook -> "R"
+        is Queen -> "Q"
+        else -> "K"
     }
 }
 
-class Pawn(line: Int, col: Int): Piece(line, col) {
+fun Piece.getDirections(): Array<Dir> {
+    return when(this) {
+        is Pawn -> arrayOf(Dir.FRONT,Dir.FRONT_LEFT,Dir.FRONT_RIGHT)
+        is Knight -> arrayOf(Dir.FRONT,Dir.BACK,Dir.LEFT,Dir.RIGHT)
+        is Bishop -> arrayOf(Dir.FRONT_LEFT,Dir.FRONT_RIGHT,Dir.BACK_LEFT,Dir.BACK_RIGHT)
+        is Rook -> arrayOf(Dir.FRONT,Dir.BACK,Dir.LEFT,Dir.RIGHT)
+        is Queen -> Dir.values()
+        else -> Dir.values()
+    }
+}
+
+class Pawn(): Piece() {
+    override fun toString() = "P"
+
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (col != prev.col) return false
@@ -18,17 +42,18 @@ class Pawn(line: Int, col: Int): Piece(line, col) {
     }
 }
 
-class Knight(line: Int, col: Int): Piece(line, col) {
+class Knight(): Piece() {
+    override fun toString() = "N"
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (kotlin.math.abs(line - prev.line) == 1 && kotlin.math.abs(col - prev.col) == 2) return true
         if (kotlin.math.abs(line - prev.line) == 2 && kotlin.math.abs(col - prev.col) == 1) return true
         return false
     }
-
 }
 
-class Bishop(line: Int, col: Int): Piece(line, col) {
+class Bishop(): Piece() {
+    override fun toString() = "B"
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (line - prev.line == kotlin.math.abs(col-prev.col)) return true
@@ -36,7 +61,8 @@ class Bishop(line: Int, col: Int): Piece(line, col) {
     }
 }
 
-class Rook(line: Int, col: Int): Piece(line, col) {
+class Rook(): Piece() {
+    override fun toString() = "R"
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (line == prev.line || col == prev.col) return true
@@ -44,7 +70,8 @@ class Rook(line: Int, col: Int): Piece(line, col) {
     }
 }
 
-class Queen(line: Int, col: Int): Piece(line, col) {
+class Queen(): Piece() {
+    override fun toString() = "Q"
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (line == prev.line || col == prev.col) return true
@@ -54,7 +81,8 @@ class Queen(line: Int, col: Int): Piece(line, col) {
     }
 }
 
-class King(line: Int, col: Int): Piece(line, col) {
+class King(): Piece() {
+    override fun toString() = "K"
     override fun valid(board: Array<Array<Piece?>>, prev: Piece): Boolean {
         if (board[line][col] != null) return false
         if (kotlin.math.abs(line - prev.line) <= 1 && kotlin.math.abs(col - prev.col) <= 1) return true

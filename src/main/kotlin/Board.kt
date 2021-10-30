@@ -1,10 +1,10 @@
 
-class Move(val pieceType: Char, val cline: Int, val ccol: Int, val tline: Int, val tcol: Int)
-
 class Board {
     private val LINES = 8
     private val COLS = 8
     private val board: Array<Array<Piece?>>
+
+    private val player = true
 
     constructor() {
         board = Array(LINES) { Array(COLS) { null } }
@@ -20,45 +20,38 @@ class Board {
      * Iniciates the board
      */
     private fun init() {
-        initPlayer1()
-        initPlayer2()
+        initBlack()
+        initWhite()
     }
 
-    /**
-     * Iniciates the board fo the first player
-     */
-    private fun initPlayer1() {
-        board[7][0] = Rook(7,0)
-        board[7][1] = Knight(7,1)
-        board[7][2] = Bishop(7,2)
-        board[7][3] = Queen(7,3)
-        board[7][4] = King(7,4)
-        board[7][5] = Bishop(7,5)
-        board[7][6] = Knight(7,1)
-        board[7][7] = Rook(7,7)
+    private fun initWhite() {
+        val whitePos = 0
+        board[whitePos][0] = Rook()
+        board[whitePos][1] = Knight()
+        board[whitePos][2] = Bishop()
+        board[whitePos][3] = Queen()
+        board[whitePos][4] = King()
+        board[whitePos][5] = Bishop()
+        board[whitePos][6] = Knight()
+        board[whitePos][7] = Rook()
         for (i in 0..7) {
-            board[6][i] = Pawn(6,i)
+            board[whitePos+1][i] = Pawn()
         }
     }
 
-    /**
-     * Iniciates the board fo the second player
-     */
-    private fun initPlayer2() {
-        board[7][0] = Rook(0,0)
-        board[7][1] = Knight(0,1)
-        board[7][2] = Bishop(0,2)
-        board[7][3] = Queen(0,3)
-        board[7][4] = King(0,4)
-        board[7][5] = Bishop(0,5)
-        board[7][6] = Knight(0,1)
-        board[7][7] = Rook(0,7)
+    private fun initBlack() {
+        board[7][0] = Rook()
+        board[7][1] = Knight()
+        board[7][2] = Bishop()
+        board[7][3] = Queen()
+        board[7][4] = King()
+        board[7][5] = Bishop()
+        board[7][6] = Knight()
+        board[7][7] = Rook()
         for (i in 0..7) {
-            board[1][i] = Pawn(1,i)
+            board[6][i] = Pawn()
         }
     }
-
-
 
     /**
      * Indicates if the given line is empty
@@ -76,29 +69,30 @@ class Board {
     override fun toString(): String {
         var str = ""
         for (line in board.indices) {
-            if (howManyPiecesInLine(line) == 0) {
-                str = ' ' + str
-                continue
-            }
-            var aux = ""
             for (piece in board[line]) {
-                aux += piece?.type?.toString() ?: ' '
+                if (piece != null)
+                    str += piece.toString()
+                else str += ' '
             }
-            // if the line has a single piece, the spaces are eliminated
-            if (howManyPiecesInLine(line) == 1) {
-                aux = aux.trim()
-                aux = ' ' + aux + ' '
-            }
-            str = aux + str
+            str += '\n'
         }
         return str
     }
 
 
-    fun makeMove(move: Move): Board? {
-        val cur = board[move.cline][move.ccol]
-        if (cur == null) return null
-        val new = cur.move(board,move.tline,move.tcol)
+    fun makeMove(move: String): Board? {
+        val cLine = move[2] - '0'
+        val cCol = move[1] - 'a'
+        val nLine = move[4] - '0'
+        val nCol = move[3] - 'a'
+        val piece = board[cLine][cCol] ?: return null
+
+        when (piece) {
+            is Pawn -> piece.move(cLine,cCol,nLine,nCol)
+            is Knight ->
+        }
+
+        val new = piece.move(board,move.tline,move.tcol)
         if (new == null) return null
         // Creates a new array board
         val newBoard = board.clone()
@@ -106,4 +100,9 @@ class Board {
         newBoard[move.tline][move.cline] = new
         return Board(newBoard)
     }
+
+    private fun Pawn.move(cLine: Int, cCol: Int, nLine: Int, nCol: Int) {
+        val dir = this.getDirections()
+    }
+
 }
