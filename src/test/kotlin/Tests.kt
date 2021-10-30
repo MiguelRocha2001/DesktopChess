@@ -8,7 +8,7 @@ class Tests {
         assertEquals(
             "rnbqkbnr"+
                     "pppppppp"+
-                    " ".repeat(4) +
+                    "        ".repeat(4) +
                     "PPPPPPPP"+
                     "RNBQKBNR", sut.toString() )
     }
@@ -19,10 +19,10 @@ class Tests {
         assertEquals(
             "rnbqkbnr"+
                     "pppp ppp"+
-                    " "+
-                    " p "+
-                    " P "+
-                    " N "+
+                    "        "+
+                    "    p   "+
+                    "    P   "+
+                    "  N     "+
                     "PPPP PPP"+
                     "R BQKBNR", sut.toString() )
     }

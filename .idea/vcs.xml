@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/2122i-LEIC31N" vcs="" />
     <mapping directory="$PROJECT_DIR$/DesktopChess" vcs="" />
   </component>
 </project>
