@@ -71,38 +71,61 @@ class Board {
         for (line in board.indices) {
             for (piece in board[line]) {
                 if (piece != null)
-                    str += piece.toString()
+                    str += piece.toStr()
                 else str += ' '
             }
-            str += '\n'
         }
         return str
     }
 
 
-    fun makeMove(move: String): Board? {
+    fun makeMove(move: String): Board {
+        if (!move.isMoveValid()) return this
         val cLine = move[2] - '0'
         val cCol = move[1] - 'a'
         val nLine = move[4] - '0'
         val nCol = move[3] - 'a'
-        val piece = board[cLine][cCol] ?: return null
+        val piece = board[cLine][cCol] ?: return this
 
-        when (piece) {
-            is Pawn -> piece.move(cLine,cCol,nLine,nCol)
-            is Knight ->
-        }
+        val direction =
+            if (nLine - cLine > 0) {
+                if (nCol - cCol > 0) Dir.FRONT_LEFT
+                if (nCol - cCol < 0) Dir.FRONT_RIGHT
+                else Dir.FRONT
+            }
+            else if (nLine - cLine < 0) {
+                if (nCol - cCol > 0) Dir.BACK_LEFT
+                if (nCol - cCol < 0) Dir.BACK_RIGHT
+                else Dir.BACK
+            }
+            else {
+                if (nCol - cCol > 0) Dir.LEFT
+                if (nCol - cCol < 0) Dir.RIGHT
+                else null
+            }
 
-        val new = piece.move(board,move.tline,move.tcol)
-        if (new == null) return null
+        // checks if the direction is valid
+        val dirs = piece.getDirections()
+        if (!dirs.contains(direction)) return this
+
         // Creates a new array board
         val newBoard = board.clone()
-        newBoard[move.cline][move.ccol] = null
-        newBoard[move.tline][move.cline] = new
+        newBoard[cLine][cCol] = null
+        newBoard[nLine][nCol] = piece
         return Board(newBoard)
     }
+}
 
-    private fun Pawn.move(cLine: Int, cCol: Int, nLine: Int, nCol: Int) {
-        val dir = this.getDirections()
-    }
-
+private fun String.isMoveValid(): Boolean {
+    val line = this.trim()
+    if (!PieceTypes.contains(line[0])) return false
+    val cLine = line[2]
+    val cCol = line[1]
+    val nLine = line[4]
+    val nCol = line[3]
+    // checks line
+    if (cLine <= '1' || cLine >= '8' || nLine <= '1' || nLine >= '8' ) return false
+    // checks col
+    if (cCol <= 'a' || cCol >= 'h' || nCol <= 'a' || nCol >= 'h' ) return false
+    return true
 }
