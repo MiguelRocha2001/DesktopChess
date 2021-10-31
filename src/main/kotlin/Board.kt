@@ -1,17 +1,24 @@
+import java.util.*
+
+enum class Player { WHITE, BLACK;
+    fun advance() = if (this === WHITE) BLACK else WHITE
+}
 
 class Board {
     private val LINES = 8
     private val COLS = 8
-    private val board: Array<Array<Piece?>>
+    private val board: Array<Array<Pair<Piece,Player>?>>
 
-    private val player = true
+    private val currentPlayer: Player
 
     constructor() {
+        currentPlayer = Player.WHITE
         board = Array(LINES) { Array(COLS) { null } }
         init()
     }
 
-    private constructor(board: Array<Array<Piece?>>) {
+    private constructor(board: Array<Array<Pair<Piece,Player>?>>, currentPlayer: Player) {
+        this.currentPlayer = currentPlayer
         this.board = board
     }
 
@@ -26,30 +33,30 @@ class Board {
 
     private fun initWhite() {
         val whitePos = 0
-        board[whitePos][0] = Rook()
-        board[whitePos][1] = Knight()
-        board[whitePos][2] = Bishop()
-        board[whitePos][3] = Queen()
-        board[whitePos][4] = King()
-        board[whitePos][5] = Bishop()
-        board[whitePos][6] = Knight()
-        board[whitePos][7] = Rook()
+        board[whitePos][0] = Pair(Rook(),Player.WHITE)
+        board[whitePos][1] = Pair(Knight(),Player.WHITE)
+        board[whitePos][2] = Pair(Bishop(),Player.WHITE)
+        board[whitePos][3] = Pair(Queen(),Player.WHITE)
+        board[whitePos][4] = Pair(King(),Player.WHITE)
+        board[whitePos][5] = Pair(Bishop(),Player.WHITE)
+        board[whitePos][6] = Pair(Knight(),Player.WHITE)
+        board[whitePos][7] = Pair(Rook(),Player.WHITE)
         for (i in 0..7) {
-            board[whitePos+1][i] = Pawn()
+            board[whitePos+1][i] = Pair(Pawn(),Player.WHITE)
         }
     }
 
     private fun initBlack() {
-        board[7][0] = Rook()
-        board[7][1] = Knight()
-        board[7][2] = Bishop()
-        board[7][3] = Queen()
-        board[7][4] = King()
-        board[7][5] = Bishop()
-        board[7][6] = Knight()
-        board[7][7] = Rook()
+        board[7][0] = Pair(Rook(),Player.BLACK)
+        board[7][1] = Pair(Knight(),Player.BLACK)
+        board[7][2] = Pair(Bishop(),Player.BLACK)
+        board[7][3] = Pair(Queen(),Player.BLACK)
+        board[7][4] = Pair(King(),Player.BLACK)
+        board[7][5] = Pair(Bishop(),Player.BLACK)
+        board[7][6] = Pair(Knight(),Player.BLACK)
+        board[7][7] = Pair(Rook(),Player.BLACK)
         for (i in 0..7) {
-            board[6][i] = Pawn()
+            board[6][i] = Pair(Pawn(),Player.BLACK)
         }
     }
 
@@ -70,8 +77,12 @@ class Board {
         var str = ""
         for (line in board.indices) {
             for (piece in board[line]) {
-                if (piece != null)
-                    str += piece.toStr()
+                if (piece != null) {
+                    str += if (piece.second === Player.WHITE)
+                        piece.first.toStr().lowercase(Locale.getDefault())
+                    else
+                        piece.first.toStr()
+                }
                 else str += ' '
             }
         }
@@ -85,7 +96,8 @@ class Board {
         val cCol = move[1] - 'a'
         val nLine = move[4] - '0'
         val nCol = move[3] - 'a'
-        val piece = board[cLine][cCol] ?: return this
+
+        val piece = if (board[cLine][cCol] != null) board[cLine][cCol]!!.first else return this
 
         val direction =
             if (nLine - cLine > 0) {
@@ -111,8 +123,8 @@ class Board {
         // Creates a new array board
         val newBoard = board.clone()
         newBoard[cLine][cCol] = null
-        newBoard[nLine][nCol] = piece
-        return Board(newBoard)
+        newBoard[nLine][nCol] = Pair(piece,currentPlayer)
+        return Board(newBoard,currentPlayer.advance())
     }
 }
 
