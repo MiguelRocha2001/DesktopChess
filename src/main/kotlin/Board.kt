@@ -27,36 +27,20 @@ class Board {
      * Iniciates the board
      */
     private fun init() {
-        initBlack()
-        initWhite()
+       initPlayer(Player.WHITE,0,1)
+        initPlayer(Player.BLACK,7,6)
     }
 
-    private fun initWhite() {
-        val whitePos = 0
-        board[whitePos][0] = Pair(Rook(),Player.WHITE)
-        board[whitePos][1] = Pair(Knight(),Player.WHITE)
-        board[whitePos][2] = Pair(Bishop(),Player.WHITE)
-        board[whitePos][3] = Pair(Queen(),Player.WHITE)
-        board[whitePos][4] = Pair(King(),Player.WHITE)
-        board[whitePos][5] = Pair(Bishop(),Player.WHITE)
-        board[whitePos][6] = Pair(Knight(),Player.WHITE)
-        board[whitePos][7] = Pair(Rook(),Player.WHITE)
+    private fun initPlayer(player: Player, firstRow: Int, secondRow: Int) {
+        board[firstRow][0] = Pair(Rook(), player)
+        board[firstRow][1] = Pair(Knight(), player)
+        board[firstRow][2] = Pair(Bishop(), player)
+        board[firstRow][3] = Pair(Queen(), player)
+        board[firstRow][4] = Pair(King(), player)
+        board[firstRow][5] = Pair(Bishop(), player)
+        board[firstRow][6] = Pair(Knight(), player)
         for (i in 0..7) {
-            board[whitePos+1][i] = Pair(Pawn(),Player.WHITE)
-        }
-    }
-
-    private fun initBlack() {
-        board[7][0] = Pair(Rook(),Player.BLACK)
-        board[7][1] = Pair(Knight(),Player.BLACK)
-        board[7][2] = Pair(Bishop(),Player.BLACK)
-        board[7][3] = Pair(Queen(),Player.BLACK)
-        board[7][4] = Pair(King(),Player.BLACK)
-        board[7][5] = Pair(Bishop(),Player.BLACK)
-        board[7][6] = Pair(Knight(),Player.BLACK)
-        board[7][7] = Pair(Rook(),Player.BLACK)
-        for (i in 0..7) {
-            board[6][i] = Pair(Pawn(),Player.BLACK)
+            board[secondRow][i] = Pair(Pawn(),player)
         }
     }
 
