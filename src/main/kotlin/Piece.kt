@@ -1,6 +1,19 @@
 val PieceTypes = arrayOf('K','Q','R','B','N','P')
 
-enum class Dir { FRONT, BACK, LEFT, RIGHT, FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT}
+enum class Dir { FRONT, BACK, LEFT, RIGHT, FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT;
+    fun invertDirection(): Dir {
+        return when(this) {
+            FRONT -> BACK
+            BACK -> FRONT
+            LEFT -> RIGHT
+            RIGHT -> LEFT
+            FRONT_LEFT -> BACK_RIGHT
+            FRONT_RIGHT -> BACK_LEFT
+            BACK_LEFT -> FRONT_RIGHT
+            BACK_RIGHT -> FRONT_LEFT
+        }
+    }
+}
 class SpecialMove()
 
 data class Movement(val dir: Array<Dir>, val maxSteps: Int)

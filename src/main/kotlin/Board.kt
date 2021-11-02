@@ -92,29 +92,14 @@ class Board {
 
     fun makeMove(move: String): Board {
         if (!move.isMoveValid()) return this
-        val cLine = move[2] - '0'
+        val cLine = move[2] - '1'
         val cCol = move[1] - 'a'
-        val nLine = move[4] - '0'
+        val nLine = move[4] - '1'
         val nCol = move[3] - 'a'
 
         val piece = if (board[cLine][cCol] != null) board[cLine][cCol]!!.first else return this
-
-        val direction =
-            if (nLine - cLine > 0) {
-                if (nCol - cCol > 0) Dir.FRONT_LEFT
-                if (nCol - cCol < 0) Dir.FRONT_RIGHT
-                else Dir.FRONT
-            }
-            else if (nLine - cLine < 0) {
-                if (nCol - cCol > 0) Dir.BACK_LEFT
-                if (nCol - cCol < 0) Dir.BACK_RIGHT
-                else Dir.BACK
-            }
-            else {
-                if (nCol - cCol > 0) Dir.LEFT
-                if (nCol - cCol < 0) Dir.RIGHT
-                else null
-            }
+        val test = board[cLine][cCol]
+        val direction = getDirection(nLine, cLine, nCol, cCol)
 
         // checks if the direction is valid
         val dirs = piece.getDirections()
@@ -126,18 +111,40 @@ class Board {
         newBoard[nLine][nCol] = Pair(piece,currentPlayer)
         return Board(newBoard,currentPlayer.advance())
     }
+
+    /**
+     * Returns the according direction given in the parameters.
+     */
+    private fun getDirection(nLine: Int, cLine: Int, nCol: Int, cCol: Int): Dir? {
+        val dir =
+            if (nLine - cLine > 0) {
+                if (nCol - cCol > 0) Dir.FRONT_LEFT
+                if (nCol - cCol < 0) Dir.FRONT_RIGHT
+                else Dir.FRONT
+            } else if (nLine - cLine < 0) {
+                if (nCol - cCol > 0) Dir.BACK_LEFT
+                if (nCol - cCol < 0) Dir.BACK_RIGHT
+                else Dir.BACK
+            } else {
+                if (nCol - cCol > 0) Dir.LEFT
+                if (nCol - cCol < 0) Dir.RIGHT
+                return null
+            }
+        // if the curPlayer is the BLACK player it inverts the direction
+        return if (currentPlayer === Player.BLACK) dir.invertDirection() else dir
 }
 
-private fun String.isMoveValid(): Boolean {
-    val line = this.trim()
-    if (!PieceTypes.contains(line[0])) return false
-    val cLine = line[2]
-    val cCol = line[1]
-    val nLine = line[4]
-    val nCol = line[3]
-    // checks line
-    if (cLine <= '1' || cLine >= '8' || nLine <= '1' || nLine >= '8' ) return false
-    // checks col
-    if (cCol <= 'a' || cCol >= 'h' || nCol <= 'a' || nCol >= 'h' ) return false
-    return true
+    private fun String.isMoveValid(): Boolean {
+        val line = this.trim()
+        if (!PieceTypes.contains(line[0])) return false
+        val cLine = line[2]
+        val cCol = line[1]
+        val nLine = line[4]
+        val nCol = line[3]
+        // checks line
+        if (cLine <= '1' || cLine >= '8' || nLine <= '1' || nLine >= '8' ) return false
+        // checks col
+        if (cCol <= 'a' || cCol >= 'h' || nCol <= 'a' || nCol >= 'h' ) return false
+        return true
+    }
 }
