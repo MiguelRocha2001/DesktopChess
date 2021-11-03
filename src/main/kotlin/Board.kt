@@ -1,17 +1,24 @@
+import java.util.*
+
+enum class Player { WHITE, BLACK;
+    fun advance() = if (this === WHITE) BLACK else WHITE
+}
 
 class Board {
     private val LINES = 8
     private val COLS = 8
-    private val board: Array<Array<Piece?>>
+    private val board: Array<Array<Pair<Piece,Player>?>>
 
-    private val player = true
+    private val currentPlayer: Player
 
     constructor() {
+        currentPlayer = Player.WHITE
         board = Array(LINES) { Array(COLS) { null } }
         init()
     }
 
-    private constructor(board: Array<Array<Piece?>>) {
+    private constructor(board: Array<Array<Pair<Piece,Player>?>>, currentPlayer: Player) {
+        this.currentPlayer = currentPlayer
         this.board = board
     }
 
@@ -20,36 +27,20 @@ class Board {
      * Iniciates the board
      */
     private fun init() {
-        initBlack()
-        initWhite()
+       initPlayer(Player.WHITE,0,1)
+        initPlayer(Player.BLACK,7,6)
     }
 
-    private fun initWhite() {
-        val whitePos = 0
-        board[whitePos][0] = Rook()
-        board[whitePos][1] = Knight()
-        board[whitePos][2] = Bishop()
-        board[whitePos][3] = Queen()
-        board[whitePos][4] = King()
-        board[whitePos][5] = Bishop()
-        board[whitePos][6] = Knight()
-        board[whitePos][7] = Rook()
+    private fun initPlayer(player: Player, firstRow: Int, secondRow: Int) {
+        board[firstRow][0] = Pair(Rook(), player)
+        board[firstRow][1] = Pair(Knight(), player)
+        board[firstRow][2] = Pair(Bishop(), player)
+        board[firstRow][3] = Pair(Queen(), player)
+        board[firstRow][4] = Pair(King(), player)
+        board[firstRow][5] = Pair(Bishop(), player)
+        board[firstRow][6] = Pair(Knight(), player)
         for (i in 0..7) {
-            board[whitePos+1][i] = Pawn()
-        }
-    }
-
-    private fun initBlack() {
-        board[7][0] = Rook()
-        board[7][1] = Knight()
-        board[7][2] = Bishop()
-        board[7][3] = Queen()
-        board[7][4] = King()
-        board[7][5] = Bishop()
-        board[7][6] = Knight()
-        board[7][7] = Rook()
-        for (i in 0..7) {
-            board[6][i] = Pawn()
+            board[secondRow][i] = Pair(Pawn(),player)
         }
     }
 
@@ -70,39 +61,74 @@ class Board {
         var str = ""
         for (line in board.indices) {
             for (piece in board[line]) {
-                if (piece != null)
-                    str += piece.toString()
+                if (piece != null) {
+                    str += if (piece.second === Player.WHITE)
+                        piece.first.toStr().lowercase(Locale.getDefault())
+                    else
+                        piece.first.toStr()
+                }
                 else str += ' '
             }
-            str += '\n'
         }
         return str
     }
 
 
-    fun makeMove(move: String): Board? {
-        val cLine = move[2] - '0'
+    fun makeMove(move: String): Board {
+        if (!move.isMoveValid()) return this
+        val cLine = move[2] - '1'
         val cCol = move[1] - 'a'
-        val nLine = move[4] - '0'
+        val nLine = move[4] - '1'
         val nCol = move[3] - 'a'
-        val piece = board[cLine][cCol] ?: return null
 
-        when (piece) {
-            is Pawn -> piece.move(cLine,cCol,nLine,nCol)
-            is Knight ->
-        }
+        val piece = if (board[cLine][cCol] != null) board[cLine][cCol]!!.first else return this
+        val test = board[cLine][cCol]
+        val direction = getDirection(nLine, cLine, nCol, cCol)
 
-        val new = piece.move(board,move.tline,move.tcol)
-        if (new == null) return null
+        // checks if the direction is valid
+        val dirs = piece.getDirections()
+        if (!dirs.contains(direction)) return this
+
         // Creates a new array board
         val newBoard = board.clone()
-        newBoard[move.cline][move.ccol] = null
-        newBoard[move.tline][move.cline] = new
-        return Board(newBoard)
+        newBoard[cLine][cCol] = null
+        newBoard[nLine][nCol] = Pair(piece,currentPlayer)
+        return Board(newBoard,currentPlayer.advance())
     }
 
-    private fun Pawn.move(cLine: Int, cCol: Int, nLine: Int, nCol: Int) {
-        val dir = this.getDirections()
-    }
+    /**
+     * Returns the according direction given in the parameters.
+     */
+    private fun getDirection(nLine: Int, cLine: Int, nCol: Int, cCol: Int): Dir? {
+        val dir =
+            if (nLine - cLine > 0) {
+                if (nCol - cCol > 0) Dir.FRONT_LEFT
+                if (nCol - cCol < 0) Dir.FRONT_RIGHT
+                else Dir.FRONT
+            } else if (nLine - cLine < 0) {
+                if (nCol - cCol > 0) Dir.BACK_LEFT
+                if (nCol - cCol < 0) Dir.BACK_RIGHT
+                else Dir.BACK
+            } else {
+                if (nCol - cCol > 0) Dir.LEFT
+                if (nCol - cCol < 0) Dir.RIGHT
+                return null
+            }
+        // if the curPlayer is the BLACK player it inverts the direction
+        return if (currentPlayer === Player.BLACK) dir.invertDirection() else dir
+}
 
+    private fun String.isMoveValid(): Boolean {
+        val line = this.trim()
+        if (!PieceTypes.contains(line[0])) return false
+        val cLine = line[2]
+        val cCol = line[1]
+        val nLine = line[4]
+        val nCol = line[3]
+        // checks line
+        if (cLine <= '1' || cLine >= '8' || nLine <= '1' || nLine >= '8' ) return false
+        // checks col
+        if (cCol <= 'a' || cCol >= 'h' || nCol <= 'a' || nCol >= 'h' ) return false
+        return true
+    }
 }
