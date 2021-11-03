@@ -24,14 +24,21 @@ class Board {
 
 
     /**
-     * Iniciates the board
+     * Initiates the board
      */
     private fun init() {
-       initPlayer(Player.WHITE,0,1)
-        initPlayer(Player.BLACK,7,6)
+        initPlayer(Player.WHITE)
+        initPlayer(Player.BLACK)
     }
 
-    private fun initPlayer(player: Player, firstRow: Int, secondRow: Int) {
+    private fun initPlayer(player: Player) {
+        var firstRow = 0
+        var secondRow = firstRow+1
+        if (player == Player.BLACK){
+            firstRow = LINES-1
+            secondRow = firstRow-1
+        }
+
         board[firstRow][0] = Pair(Rook(), player)
         board[firstRow][1] = Pair(Knight(), player)
         board[firstRow][2] = Pair(Bishop(), player)
@@ -39,6 +46,7 @@ class Board {
         board[firstRow][4] = Pair(King(), player)
         board[firstRow][5] = Pair(Bishop(), player)
         board[firstRow][6] = Pair(Knight(), player)
+        board[firstRow][7] = Pair(Rook(), player)
         for (i in 0..7) {
             board[secondRow][i] = Pair(Pawn(),player)
         }
@@ -50,7 +58,7 @@ class Board {
     private fun howManyPiecesInLine(line: Int): Int {
         var count = 0
         for (piece in board[line])
-            if (piece != null) ++count
+            if (piece != null) count++
         return count
     }
 
@@ -59,10 +67,10 @@ class Board {
      */
     override fun toString(): String {
         var str = ""
-        for (line in board.indices) {
+        for (line in board.indices.reversed()) {
             for (piece in board[line]) {
                 if (piece != null) {
-                    str += if (piece.second === Player.WHITE)
+                    str += if (piece.second == Player.BLACK)
                         piece.first.toStr().lowercase(Locale.getDefault())
                     else
                         piece.first.toStr()
@@ -121,14 +129,17 @@ class Board {
     private fun String.isMoveValid(): Boolean {
         val line = this.trim()
         if (!PieceTypes.contains(line[0])) return false
-        val cLine = line[2]
-        val cCol = line[1]
-        val nLine = line[4]
-        val nCol = line[3]
+
+        val currCol = line[1]
+        val currLine = line[2]
+        val newCol = line[3]
+        val newLine = line[4]
+
         // checks line
-        if (cLine <= '1' || cLine >= '8' || nLine <= '1' || nLine >= '8' ) return false
+        if (currLine < '1' || currLine > '8' || newLine <= '1' || newLine >= '8' ) return false
         // checks col
-        if (cCol <= 'a' || cCol >= 'h' || nCol <= 'a' || nCol >= 'h' ) return false
+        if (currCol < 'a' || currCol > 'h' || newCol < 'a' || newCol > 'h' ) return false
         return true
     }
 }
+

@@ -1,6 +1,9 @@
 val PieceTypes = arrayOf('K','Q','R','B','N','P')
 
+// Possible directions poeces can take
 enum class Dir { FRONT, BACK, LEFT, RIGHT, FRONT_LEFT, FRONT_RIGHT, BACK_LEFT, BACK_RIGHT;
+
+    //Inverts directions for Black Pieces
     fun invertDirection(): Dir {
         return when(this) {
             FRONT -> BACK
