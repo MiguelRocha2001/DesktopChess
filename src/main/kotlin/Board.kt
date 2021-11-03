@@ -84,14 +84,14 @@ class Board {
 
     fun makeMove(move: String): Board {
         if (!move.isMoveValid()) return this
-        val cLine = move[2] - '1'
-        val cCol = move[1] - 'a'
-        val nLine = move[4] - '1'
-        val nCol = move[3] - 'a'
+        val currCol = move[1] - 'a'
+        val currLine = move[2] - '1'
+        val newCol = move[3] - 'a'
+        val newLine = move[4] - '1'
 
-        val piece = if (board[cLine][cCol] != null) board[cLine][cCol]!!.first else return this
-        val test = board[cLine][cCol]
-        val direction = getDirection(nLine, cLine, nCol, cCol)
+        val piece = if (board[currLine][currCol] != null) board[currLine][currCol]!!.first else return this
+        val test = board[currLine][currCol].second
+        val direction = getDirection(newLine, currLine, newCol, currCol)
 
         // checks if the direction is valid
         val dirs = piece.getDirections()
@@ -99,8 +99,8 @@ class Board {
 
         // Creates a new array board
         val newBoard = board.clone()
-        newBoard[cLine][cCol] = null
-        newBoard[nLine][nCol] = Pair(piece,currentPlayer)
+        newBoard[currLine][currCol] = null
+        newBoard[newLine][newCol] = Pair(piece,currentPlayer)
         return Board(newBoard,currentPlayer.advance())
     }
 
@@ -122,7 +122,7 @@ class Board {
                 if (nCol - cCol < 0) Dir.RIGHT
                 return null
             }
-        // if the curPlayer is the BLACK player it inverts the direction
+        //inverts direction for Black pieces
         return if (currentPlayer === Player.BLACK) dir.invertDirection() else dir
 }
 
@@ -135,10 +135,14 @@ class Board {
         val newCol = line[3]
         val newLine = line[4]
 
+        //checks if piece belongs to player
+        if(board[currLine-'1'][currCol-'a'].second != currentPlayer) return false
+
         // checks line
         if (currLine < '1' || currLine > '8' || newLine <= '1' || newLine >= '8' ) return false
         // checks col
         if (currCol < 'a' || currCol > 'h' || newCol < 'a' || newCol > 'h' ) return false
+
         return true
     }
 }
