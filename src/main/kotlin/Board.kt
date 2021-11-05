@@ -89,18 +89,21 @@ class Board {
         val newCol = move[3] - 'a'
         val newLine = move[4] - '1'
 
-        val piece = if (board[currLine][currCol] != null) board[currLine][currCol]!!.first else return this
-        val test = board[currLine][currCol].second
+        val piece = if (board[currLine][currCol] != null) board[currLine][currCol] else return this
+        //checks if piece belongs to player
+        if(piece!!.second != currentPlayer) return this
+
+        val type = piece.first
         val direction = getDirection(newLine, currLine, newCol, currCol)
 
         // checks if the direction is valid
-        val dirs = piece.getDirections()
+        val dirs = type.getDirections()
         if (!dirs.contains(direction)) return this
 
         // Creates a new array board
         val newBoard = board.clone()
         newBoard[currLine][currCol] = null
-        newBoard[newLine][newCol] = Pair(piece,currentPlayer)
+        newBoard[newLine][newCol] = Pair(type,currentPlayer)
         return Board(newBoard,currentPlayer.advance())
     }
 
@@ -111,15 +114,15 @@ class Board {
         val dir =
             if (nLine - cLine > 0) {
                 if (nCol - cCol > 0) Dir.FRONT_LEFT
-                if (nCol - cCol < 0) Dir.FRONT_RIGHT
+                else if (nCol - cCol < 0) Dir.FRONT_RIGHT
                 else Dir.FRONT
             } else if (nLine - cLine < 0) {
                 if (nCol - cCol > 0) Dir.BACK_LEFT
-                if (nCol - cCol < 0) Dir.BACK_RIGHT
+                else if (nCol - cCol < 0) Dir.BACK_RIGHT
                 else Dir.BACK
             } else {
                 if (nCol - cCol > 0) Dir.LEFT
-                if (nCol - cCol < 0) Dir.RIGHT
+                else if (nCol - cCol < 0) Dir.RIGHT
                 return null
             }
         //inverts direction for Black pieces
@@ -134,9 +137,6 @@ class Board {
         val currLine = line[2]
         val newCol = line[3]
         val newLine = line[4]
-
-        //checks if piece belongs to player
-        if(board[currLine-'1'][currCol-'a'].second != currentPlayer) return false
 
         // checks line
         if (currLine < '1' || currLine > '8' || newLine <= '1' || newLine >= '8' ) return false
