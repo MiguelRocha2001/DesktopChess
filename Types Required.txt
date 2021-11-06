@@ -1,0 +1,13 @@
+Tipos:
+   Player // WHITE | BLACK
+   PieceType // King | Queen | Rook | Bishop | Knight | Pawn
+   Piece(type,player)
+
+   Column // a..h Coluna do tabuleiro
+   Row    // 1..8 Linha do tabuleiro
+   Square(column,row)  // Posição no tabuleiro
+   Board  // O tabuleiro com as peças
+
+   Move   // Regular | Captura | Promoção | Castling | EnPassant
+
+   Chess(board,moves)
