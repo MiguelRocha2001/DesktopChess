@@ -6,25 +6,23 @@ class Board {
     enum class Player { WHITE, BLACK;
         fun advance() = if (this === WHITE) BLACK else WHITE
     }
-    enum class Column(val char: Char) {A('a'), B('b'), C('c'), D('d'), E('e'), F('f'), G('g'), H('h')}
-    enum class Row(val line: Int) {ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8)}
-    class Square(column: Column, row: Row)
+    enum class Column(val n: Int) {A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7)}
+    enum class Row(val n: Int) {ONE(0), TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5), SEVEN(6), EIGHT(7)}
+    class Square(val column: Column, val row: Row)
     class Piece(val type: PieceType, val player: Player)
     class Move(val piece: PieceType, val cur: Square, val target: Square)
 
     private val LINES = 8
     private val COLS = 8
-    private val board: Array<Array<Pair<PieceType,Player>?>>
+    private val board: Array<Array<Piece?>>
 
 
     constructor() {
-        currentPlayer = Player.WHITE
         board = Array(LINES) { Array(COLS) { null } }
         init()
     }
 
-    private constructor(board: Array<Array<Pair<PieceType,Player>?>>, currentPlayer: Player) {
-        this.currentPlayer = currentPlayer
+    private constructor(board: Array<Array<Piece?>>) {
         this.board = board
     }
 
@@ -66,10 +64,10 @@ class Board {
         for (line in board.indices.reversed()) {
             for (piece in board[line]) {
                 if (piece != null) {
-                    str += if (piece.second == Player.BLACK)
-                        piece.first.toStr().lowercase(Locale.getDefault())
+                    str += if (piece.player == Player.BLACK)
+                        piece.type.toStr().lowercase(Locale.getDefault())
                     else
-                        piece.first.toStr()
+                        piece.type.toStr()
                 }
                 else str += ' '
             }
@@ -100,8 +98,12 @@ class Board {
      * Recebe um tipo MOVE() sempre valido e aplica a jogada.
      * Utilizado mais para fazer jogadas no jogo corrente
      */
-    fun makeMove(move: Move) {
-        TODO()
+    fun makeMove(move: Move): Board {
+        val piece = board[move.cur.row.n][move.cur.column.n]
+        val newBoard = board.clone()
+        board[move.cur.row.n][move.cur.column.n] = null
+        newBoard[move.target.row.n][move.target.column.n] = piece
+        return Board(newBoard)
     }
 
     /**
@@ -114,11 +116,11 @@ class Board {
         val newCol = move[3] - 'a'
         val newLine = move[4] - '1'
 
-        // Creates a new array board
+        val piece = board[currLine][currCol]
         val newBoard = board.clone()
-        newBoard[currLine][currCol] = null
-        newBoard[newLine][newCol] = Pair(type,currentPlayer)
-        return Board(newBoard,currentPlayer.advance())
+        board[currLine][currCol] = null
+        newBoard[newLine][newCol] = piece
+        return Board(newBoard)
     }
 
     fun getColumn(column: Char) =
