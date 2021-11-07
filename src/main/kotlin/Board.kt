@@ -2,7 +2,9 @@ import java.util.*
 
 
 class Board {
-
+    companion object {
+        private var currentPlayer = false
+    }
     enum class Player { WHITE, BLACK;
         fun advance() = if (this === WHITE) BLACK else WHITE
     }
@@ -43,16 +45,16 @@ class Board {
             secondRow = firstRow-1
         }
 
-        board[firstRow][0] = Pair(Rook(), player)
-        board[firstRow][1] = Pair(Knight(), player)
-        board[firstRow][2] = Pair(Bishop(), player)
-        board[firstRow][3] = Pair(Queen(), player)
-        board[firstRow][4] = Pair(King(), player)
-        board[firstRow][5] = Pair(Bishop(), player)
-        board[firstRow][6] = Pair(Knight(), player)
-        board[firstRow][7] = Pair(Rook(), player)
+        board[firstRow][0] = Piece(Rook(),player)
+        board[firstRow][1] = Piece(Knight(),player)
+        board[firstRow][2] = Piece(Bishop(), player)
+        board[firstRow][3] = Piece(Queen(), player)
+        board[firstRow][4] = Piece(King(), player)
+        board[firstRow][5] = Piece(Bishop(), player)
+        board[firstRow][6] = Piece(Knight(), player)
+        board[firstRow][7] = Piece(Rook(), player)
         for (i in 0..7) {
-            board[secondRow][i] = Pair(Pawn(),player)
+            board[secondRow][i] = Piece(Pawn(false),player)
         }
     }
 
@@ -91,7 +93,20 @@ class Board {
         val newRow = getRow(row[4])
         val pieceType = getPieceType(str[0])
         if (currCol == null || currRow == null || newCol == null || newRow == null || pieceType == null) return null
-        return Move(pieceType,Square(currCol,currRow),Square(newCol,newRow))
+        val move = Move(pieceType,Square(currCol,currRow),Square(newCol,newRow))
+        if (!isValidSquare(move)) return null
+        return move
+    }
+
+    /**
+     * Checks if there's actually a Piece in the given Square
+     * Checks also if the given Move is correct for the current player.
+     */
+    private fun isValidSquare(move: Move): Boolean {
+        val player = if (currentPlayer) Player.WHITE else Player.BLACK
+        val piece = board[move.cur.row.n][move.cur.column.n] ?: return false
+        if (piece.player !== player) return false
+        return true
     }
 
     /**
@@ -103,6 +118,7 @@ class Board {
         val newBoard = board.clone()
         board[move.cur.row.n][move.cur.column.n] = null
         newBoard[move.target.row.n][move.target.column.n] = piece
+        currentPlayer = !currentPlayer
         return Board(newBoard)
     }
 
@@ -115,11 +131,11 @@ class Board {
         val currLine = move[2] - '1'
         val newCol = move[3] - 'a'
         val newLine = move[4] - '1'
-
         val piece = board[currLine][currCol]
         val newBoard = board.clone()
         board[currLine][currCol] = null
         newBoard[newLine][newCol] = piece
+        currentPlayer = !currentPlayer
         return Board(newBoard)
     }
 

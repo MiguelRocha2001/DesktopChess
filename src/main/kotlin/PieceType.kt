@@ -3,26 +3,55 @@
  * Cada peça vai receber uma tentativa de jogada, ou seja, com as coordenadas da jogada e o tabuleiro com as outras peças e DIZER se essa jogada foi valida
  */
 sealed class PieceType()
-class Pawn(): PieceType()
+class Pawn(val hasPlayed: Boolean): PieceType()
 class Knight(): PieceType()
 class Bishop(): PieceType()
 class Rook(): PieceType()
 class Queen(): PieceType()
 class King(): PieceType()
 
-fun PieceType.canItMove(move: Board.Move, board: Array<Array<Pair<PieceType,Player>?>): Boolean {
+fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     return when(this) {
-        is Pawn -> tryToMovePawn(move)
-        is Knight -> tryToMoveKnight(move)
-        is Bishop -> tryToMoveBishop(move)
-        is Rook -> tryToMoveRook(move)
-        is Queen -> tryToMoveQueen(move)
-        else ->
+        is Pawn -> tryToMovePawn(move,board)
+        //is Knight -> tryToMoveKnight(move)
+        //is Bishop -> tryToMoveBishop(move)
+        //is Rook -> tryToMoveRook(move)
+        // is Queen -> tryToMoveQueen(move)
+        else -> tryToMovePawn(move,board)
     }
 }
 
-fun tryToMovePawn(move: Board.Move, board: Array<Array<Pair<PieceType,Player>?>): Boolean {
-
+fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
+    // if the player chooses the same place
+    if (move.target.row === move.cur.row && move.target.column === move.cur.column) return false
+    // for the WHITE player
+    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.WHITE) {
+        // if there inst a Piece on the forward-left
+        if (move.target.column < move.cur.column) {
+            // if the player tries to go foward-left
+            if (board[move.cur.row.n + 1][move.cur.column.n - 1] == null) return false
+        }
+        // if the player tries to go foward-right
+        if (move.target.column > move.cur.column) {
+             // if there inst a Piece on the foward-right
+             if (board[move.cur.row.n + 1][move.cur.column.n + 1] == null) return false
+        }
+        // if the player tries to go foward
+        if (move.target.row > move.cur.row && move.target.column === move.cur.column) {
+            // if the player tries to go foward more than 2 times
+            if (move.target.row.n - move.cur.row.n > 2) return false
+            // if the player tries to go foward 2 times
+            if (move.target.row.n - move.cur.row.n == 2) {
+                val pawn = board[move.cur.row.n][move.cur.column.n] as Pawn
+                if (pawn.hasPlayed) return false
+            }
+            // if the player tries to go foward 1 time
+            if (move.target.row.n - move.cur.row.n == 1) {
+                if (board[move.cur.row.n + 1][move.cur.column.n] != null) return false
+            }
+        }
+    }
+    return true
 }
 
 /*
@@ -43,7 +72,7 @@ fun PieceType.toStr() =
 
 fun getPieceType(type: Char) =
     when(type) {
-        'P' -> Pawn()
+        'P' -> Pawn(false)
         'N' -> Knight()
         'B' -> Bishop()
         'R' -> Rook()
@@ -51,14 +80,3 @@ fun getPieceType(type: Char) =
         'K' -> King()
         else -> null
     }
-
-fun PieceType.getDirections(): Array<Dir> {
-    return when(this) {
-        is Pawn -> arrayOf(Dir.FRONT,Dir.FRONT_LEFT,Dir.FRONT_RIGHT)
-        is Knight -> arrayOf(Dir.FRONT,Dir.BACK,Dir.LEFT,Dir.RIGHT)
-        is Bishop -> arrayOf(Dir.FRONT_LEFT,Dir.FRONT_RIGHT,Dir.BACK_LEFT,Dir.BACK_RIGHT)
-        is Rook -> arrayOf(Dir.FRONT,Dir.BACK,Dir.LEFT,Dir.RIGHT)
-        is Queen -> Dir.values()
-        else -> Dir.values()
-    }
-}
