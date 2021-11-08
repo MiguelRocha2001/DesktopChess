@@ -1,7 +1,7 @@
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 
-class Tests {
+class General {
     @Test
     fun `Initial position Board`() {
         val sut = Board()
@@ -10,6 +10,20 @@ class Tests {
                     "pppppppp"+
                     "        ".repeat(4) +
                     "PPPPPPPP"+
+                    "RNBQKBNR", sut.toString() )
+    }
+
+    @Test
+    fun `MakeMove with Pawn in Board`() {
+        val sut = Board().makeMove("Pe2e4")
+        assertEquals(
+            "rnbqkbnr"+
+                    "pppppppp"+
+                    "        "+
+                    "        "+
+                    "    P   "+
+                    "        "+
+                    "PPPP PPP"+
                     "RNBQKBNR", sut.toString() )
     }
 

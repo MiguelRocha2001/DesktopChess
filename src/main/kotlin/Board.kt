@@ -1,6 +1,5 @@
 import java.util.*
 
-
 class Board {
     companion object {
         private var currentPlayer = false
@@ -53,9 +52,8 @@ class Board {
         board[firstRow][5] = Piece(Bishop(), player)
         board[firstRow][6] = Piece(Knight(), player)
         board[firstRow][7] = Piece(Rook(), player)
-        for (i in 0..7) {
+        for (i in 0..7)
             board[secondRow][i] = Piece(Pawn(false),player)
-        }
     }
 
     /**

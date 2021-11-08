@@ -21,39 +21,6 @@ fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Bo
     }
 }
 
-fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
-    // if the player chooses the same place
-    if (move.target.row === move.cur.row && move.target.column === move.cur.column) return false
-    // for the WHITE player
-    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.WHITE) {
-        // if there inst a Piece on the forward-left
-        if (move.target.column < move.cur.column) {
-            // if the player tries to go foward-left
-            if (board[move.cur.row.n + 1][move.cur.column.n - 1] == null) return false
-        }
-        // if the player tries to go foward-right
-        if (move.target.column > move.cur.column) {
-             // if there inst a Piece on the foward-right
-             if (board[move.cur.row.n + 1][move.cur.column.n + 1] == null) return false
-        }
-        // if the player tries to go foward
-        if (move.target.row > move.cur.row && move.target.column === move.cur.column) {
-            // if the player tries to go foward more than 2 times
-            if (move.target.row.n - move.cur.row.n > 2) return false
-            // if the player tries to go foward 2 times
-            if (move.target.row.n - move.cur.row.n == 2) {
-                val pawn = board[move.cur.row.n][move.cur.column.n] as Pawn
-                if (pawn.hasPlayed) return false
-            }
-            // if the player tries to go foward 1 time
-            if (move.target.row.n - move.cur.row.n == 1) {
-                if (board[move.cur.row.n + 1][move.cur.column.n] != null) return false
-            }
-        }
-    }
-    return true
-}
-
 /*
 fun getAllPieces(): Array<Piece> {
     return arrayOf(Pawn(),Knight(),Bishop(),Rook(),Queen(),King())
