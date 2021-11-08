@@ -7,7 +7,7 @@ fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
     if (move.target.row === move.cur.row && move.target.column === move.cur.column) return false
     // for the WHITE player
     if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.WHITE) {
-        if (!checksDiagonalForward(move,board)) return false
+        if (checksDiagonalForward(move,board)) return true
         return checksForward(move,board)
     }
     return false

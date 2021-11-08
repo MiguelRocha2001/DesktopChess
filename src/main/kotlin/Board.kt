@@ -43,7 +43,6 @@ class Board {
             firstRow = LINES-1
             secondRow = firstRow-1
         }
-
         board[firstRow][0] = Piece(Rook(),player)
         board[firstRow][1] = Piece(Knight(),player)
         board[firstRow][2] = Piece(Bishop(), player)
@@ -53,7 +52,7 @@ class Board {
         board[firstRow][6] = Piece(Knight(), player)
         board[firstRow][7] = Piece(Rook(), player)
         for (i in 0..7)
-            board[secondRow][i] = Piece(Pawn(false),player)
+            board[secondRow][i] = Piece(Pawn(),player)
     }
 
     /**
@@ -80,16 +79,41 @@ class Board {
      * Na base de dados guarda-se as jogadas ocurridas (sempre válidas) no tipo String
      */
 
+
+    /**
+     * Recebe uma string do servidor com as jogadas sempre validas e aplica as jogadas todas guadradads no servidor ate chegar ao estado corrente
+     * Utilizado mais para fazer jogadas para repor o jogo atraves das strings que estao guardadas no servidor
+     */
+    fun makeMoveWithCorrectString(move: String): Board {
+        val currCol = move[1] - 'a'
+        val currRow = move[2] - '1'
+        val newCol = move[3] - 'a'
+        val newRow = move[4] - '1'
+        //val move = Move(getPieceType(move[0])!!,Square(currCol,currRow),Square(newCol,newRow))
+        val piece = board[currRow][currCol]
+        val newBoard = board.clone()
+        board[currRow][currCol] = null
+        newBoard[newRow][newCol] = piece
+        currentPlayer = !currentPlayer
+        return Board(newBoard)
+    }
+
+
+    fun makeMove(str: String): Board? {
+        val move = toMoveOrNull(str)
+        return if (move == null) return null else makeMove(move)
+    }
+
     /**
      * recebe uma string e retorna um tipo MOVE() que tem a jogada com as coordenadas iniciais e finais e a peça
      */
-    fun toMoveOrNull(str: String): Move? {
-        val row = str.trim()
+    fun toMoveOrNull(move: String): Move? {
+        val row = move.trim()
         val currCol = getColumn(row[1])
         val currRow = getRow(row[2])
         val newCol = getColumn(row[3])
         val newRow = getRow(row[4])
-        val pieceType = getPieceType(str[0])
+        val pieceType = getPieceType(move[0])
         if (currCol == null || currRow == null || newCol == null || newRow == null || pieceType == null) return null
         val move = Move(pieceType,Square(currCol,currRow),Square(newCol,newRow))
         if (!isValidSquare(move)) return null
@@ -101,7 +125,7 @@ class Board {
      * Checks also if the given Move is correct for the current player.
      */
     private fun isValidSquare(move: Move): Boolean {
-        val player = if (currentPlayer) Player.WHITE else Player.BLACK
+        val player = if (!currentPlayer) Player.WHITE else Player.BLACK
         val piece = board[move.cur.row.n][move.cur.column.n] ?: return false
         if (piece.player !== player) return false
         return true
@@ -111,7 +135,8 @@ class Board {
      * Recebe um tipo MOVE() sempre valido e aplica a jogada.
      * Utilizado mais para fazer jogadas no jogo corrente
      */
-    fun makeMove(move: Move): Board {
+    private fun makeMove(move: Move): Board? {
+        if (!move.piece.canItMove(move,board)) return null
         val piece = board[move.cur.row.n][move.cur.column.n]
         val newBoard = board.clone()
         board[move.cur.row.n][move.cur.column.n] = null
@@ -120,33 +145,16 @@ class Board {
         return Board(newBoard)
     }
 
-    /**
-     * Recebe uma string do servidor com as jogadas sempre validas e aplica as jogadas todas guadradads no servidor ate chegar ao estado corrente
-     * Utilizado mais para fazer jogadas para repor o jogo atraves das strings que estao guardadas no servidor
-     */
-    fun makeMove(move: String): Board {
-        val currCol = move[1] - 'a'
-        val currLine = move[2] - '1'
-        val newCol = move[3] - 'a'
-        val newLine = move[4] - '1'
-        val piece = board[currLine][currCol]
-        val newBoard = board.clone()
-        board[currLine][currCol] = null
-        newBoard[newLine][newCol] = piece
-        currentPlayer = !currentPlayer
-        return Board(newBoard)
-    }
-
     fun getColumn(column: Char) =
         when(column) {
-            'A' -> Column.A
-            'B' -> Column.B
-            'C' -> Column.C
-            'D' -> Column.D
-            'E' -> Column.E
-            'F' -> Column.F
-            'G' -> Column.G
-            'H' -> Column.H
+            'a' -> Column.A
+            'b' -> Column.B
+            'c' -> Column.C
+            'd' -> Column.D
+            'e' -> Column.E
+            'f' -> Column.F
+            'g' -> Column.G
+            'h' -> Column.H
             else -> null
         }
     fun getRow(row: Char) =

@@ -14,22 +14,8 @@ class General {
     }
 
     @Test
-    fun `MakeMove with Pawn in Board`() {
-        val sut = Board().makeMove("Pe2e4")
-        assertEquals(
-            "rnbqkbnr"+
-                    "pppppppp"+
-                    "        "+
-                    "        "+
-                    "    P   "+
-                    "        "+
-                    "PPPP PPP"+
-                    "RNBQKBNR", sut.toString() )
-    }
-
-    @Test
     fun `MakeMove in Board`() {
-        val sut = Board().makeMove("Pe2e4").makeMove("Pe7e5").makeMove("Nb1c3")
+        val sut = Board().makeMoveWithCorrectString("Pe2e4").makeMoveWithCorrectString("Pe7e5").makeMoveWithCorrectString("Nb1c3")
         assertEquals(
             "rnbqkbnr"+
                     "pppp ppp"+

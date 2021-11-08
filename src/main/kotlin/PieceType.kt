@@ -3,12 +3,14 @@
  * Cada peça vai receber uma tentativa de jogada, ou seja, com as coordenadas da jogada e o tabuleiro com as outras peças e DIZER se essa jogada foi valida
  */
 sealed class PieceType()
-class Pawn(val hasPlayed: Boolean): PieceType()
-class Knight(): PieceType()
-class Bishop(): PieceType()
-class Rook(): PieceType()
-class Queen(): PieceType()
-class King(): PieceType()
+class Pawn(): PieceType() {
+    var hasPlayed: Boolean = false
+}
+class Knight: PieceType()
+class Bishop: PieceType()
+class Rook: PieceType()
+class Queen: PieceType()
+class King: PieceType()
 
 fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     return when(this) {
@@ -39,7 +41,7 @@ fun PieceType.toStr() =
 
 fun getPieceType(type: Char) =
     when(type) {
-        'P' -> Pawn(false)
+        'P' -> Pawn()
         'N' -> Knight()
         'B' -> Bishop()
         'R' -> Rook()

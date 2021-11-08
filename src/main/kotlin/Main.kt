@@ -1,5 +1,3 @@
-import kotlin.collections.contains as contains1
-
 //enum class PieceType(val char: Char) { KING('K'), QUEEN('Q'), ROOK('R'), BISHOP('B'), KNIGHT('N'), PAWN('P') }
 //class Command(val pieceType: PieceType, val dir: Dir, val steps: Int)
 //class Command(val piece: Piece, val cline: Int, val ccol: Int, val tline: Int, tcol: Int)
@@ -7,7 +5,7 @@ import kotlin.collections.contains as contains1
 fun main() {
     var game = Board()
     while (true) {
-        game = game.makeMove(readLine()!!)
+        game = game.makeMoveWithCorrectString(readLine()!!)
         game.toString()
     }
 }
