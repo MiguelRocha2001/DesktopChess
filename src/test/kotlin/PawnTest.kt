@@ -1,9 +1,10 @@
 import junit.framework.Assert.assertEquals
 import org.junit.Test
+import kotlin.test.assertNull
 
 class PawnTest {
     @Test
-    fun `Makes one forward step with Pawn in Board`() {
+    fun `Makes one step forward with Pawn in Board`() {
         val sut = Board().makeMove("Pe2e3")
         assertEquals(
             "rnbqkbnr"+
@@ -17,7 +18,7 @@ class PawnTest {
     }
 
     @Test
-    fun `Makes two forward steps with Pawn in Board`() {
+    fun `Makes two steps forward with Pawn in Board`() {
         val sut = Board().makeMove("Pe2e4")
         assertEquals(
             "rnbqkbnr"+
@@ -31,16 +32,8 @@ class PawnTest {
     }
 
     @Test
-    fun `Makes one forward-left step with Pawn in Board`() {
+    fun `Makes one step forward-left with Pawn in Board`() {
         val sut = Board().makeMove("Pe2d3")
-        assertEquals(
-            "rnbqkbnr"+
-                    "pppppppp"+
-                    "        "+
-                    "        "+
-                    "        "+
-                    "   P    "+
-                    "PPPP PPP"+
-                    "RNBQKBNR", sut.toString() )
+        assertNull(sut)
     }
 }

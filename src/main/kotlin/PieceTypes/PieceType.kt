@@ -17,7 +17,7 @@ fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Bo
         is Pawn -> tryToMovePawn(move,board)
         //is Knight -> tryToMoveKnight(move)
         //is Bishop -> tryToMoveBishop(move)
-        //is Rook -> tryToMoveRook(move)
+        //is Rook -> tryToMoveRook(move,board)
         // is Queen -> tryToMoveQueen(move)
         else -> tryToMovePawn(move,board)
     }
