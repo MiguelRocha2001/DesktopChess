@@ -36,4 +36,10 @@ class PawnTest {
         val sut = Board().makeMove("Pe2d3")
         assertNull(sut)
     }
+
+    @Test
+    fun `Makes one step back with Pawn in Board`() {
+        val sut = Board().makeMove("Pe2e1")
+        assertNull(sut)
+    }
 }

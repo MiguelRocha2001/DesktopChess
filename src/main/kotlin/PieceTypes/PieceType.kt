@@ -1,3 +1,4 @@
+import PieceTypes.tryToMoveRook
 
 /**
  * Cada peça vai receber uma tentativa de jogada, ou seja, com as coordenadas da jogada e o tabuleiro com as outras peças e DIZER se essa jogada foi valida
@@ -17,7 +18,7 @@ fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Bo
         is Pawn -> tryToMovePawn(move,board)
         //is Knight -> tryToMoveKnight(move)
         //is Bishop -> tryToMoveBishop(move)
-        //is Rook -> tryToMoveRook(move,board)
+        is Rook -> tryToMoveRook(move,board)
         // is Queen -> tryToMoveQueen(move)
         else -> tryToMovePawn(move,board)
     }

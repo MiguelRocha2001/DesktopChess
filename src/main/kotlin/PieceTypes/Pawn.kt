@@ -12,21 +12,20 @@ fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
 
 /**
  * Checks if the given Move tried to move a Pawn in a valid diagonal direction.
+ * Returns false if there inst already a piece there
  */
 private fun checksDiagonalForward(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
-    var rowDif = move.target.row.n - move.cur.row.n
+    val rowDif = move.target.row.n - move.cur.row.n
     var colDif = move.target.column.n - move.cur.column.n
-    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.BLACK) {
-        //asserts values
-        rowDif = -rowDif
-        colDif = -colDif
-    }
+    val rowDifAbs = kotlin.math.abs(rowDif)
+    var colDifAbs = kotlin.math.abs(colDif)
+
     // if the player tries to go forward-left
-    if (colDif < 0)
-    // if there's a Piece on the forward-left
+    if (colDifAbs == -1 && rowDifAbs == 1)
+    // if there's a Piece on the forward-left square
         if (board[move.cur.row.n + 1][move.cur.column.n - 1] != null) return true
     // if the player tries to go forward-right
-    if (colDif > 0)
+    if (colDifAbs == 1 && rowDif == 1)
     // if there's a Piece on the forward-right
         if (board[move.cur.row.n + 1][move.cur.column.n + 1] != null) return true
     return false
