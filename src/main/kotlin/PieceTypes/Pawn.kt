@@ -61,7 +61,7 @@ private fun checksForward(move: Board.Move, board: Array<Array<Board.Piece?>>): 
         if (rowDif == 1) {
             // if there isn't already a piece there
             if (player===Board.Player.WHITE && board[move.cur.row.n + 1][move.cur.column.n] == null) return true
-            if (player===Board.Player.WHITE && board[move.cur.row.n - 1][move.cur.column.n] == null) return true
+            if (player===Board.Player.BLACK && board[move.cur.row.n - 1][move.cur.column.n] == null) return true
         }
     }
     return false

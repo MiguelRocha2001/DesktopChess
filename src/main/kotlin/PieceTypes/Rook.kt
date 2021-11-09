@@ -9,15 +9,25 @@ fun tryToMoveRook(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
 
 private fun tryToMoveHorizontal(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     val player = board[move.cur.row.n][move.cur.column.n]!!.player
+    var rowDif = move.target.row.n - move.cur.row.n
     var colDif = move.target.column.n - move.cur.column.n
     if (player===Board.Player.BLACK) {
+        rowDif = -rowDif
         colDif = -colDif
     }
-    // if the player tries to MOVE vertically
-    if (colDif == 0) {
-        for (i in move.cur.column.n..move.target.column.n) {
-            if (board[i][move.cur.column.n] != null)
-                return false
+    // if the player tries to move vertically
+    if (rowDif == 0) {
+        if (colDif > 0) {
+            for (i in move.cur.row.n+1..move.target.row.n) {
+                if (board[move.cur.row.n][i] != null)
+                    return false
+            }
+        }
+        if (colDif < 0) {
+            for (i in move.cur.row.n-1 downTo move.target.row.n) {
+                if (board[move.cur.row.n][i] != null)
+                    return false
+            }
         }
     }
     return false
@@ -26,14 +36,26 @@ private fun tryToMoveHorizontal(move: Board.Move, board: Array<Array<Board.Piece
 private fun tryToMoveVertical(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     val player = board[move.cur.row.n][move.cur.column.n]!!.player
     var rowDif = move.target.row.n - move.cur.row.n
+    var colDif = move.target.column.n - move.cur.column.n
     if (player===Board.Player.BLACK) {
         rowDif = -rowDif
+        colDif = -colDif
     }
-    // if the player tries to MOVE horizontally
-    if (rowDif == 0) {
-        for (i in move.cur.row.n..move.target.row.n) {
-            if (board[i][move.cur.column.n] != null)
-                return false
+    // if the player tries to move vertically
+    if (colDif == 0) {
+        if (rowDif > 0) {
+            for (i in move.cur.row.n+1..move.target.row.n) {
+                if (board[i][move.cur.column.n] != null)
+                    return false
+            }
+            return true
+        }
+        if (rowDif < 0) {
+            for (i in move.cur.row.n-1 downTo move.target.row.n) {
+                if (board[i][move.cur.column.n] != null)
+                    return false
+            }
+            return true
         }
     }
     return false

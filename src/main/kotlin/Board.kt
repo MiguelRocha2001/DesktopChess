@@ -127,6 +127,7 @@ class Board {
     private fun isValidSquare(move: Move): Boolean {
         val player = if (!currentPlayer) Player.WHITE else Player.BLACK
         val piece = board[move.cur.row.n][move.cur.column.n] ?: return false
+        if (piece.type.toStr() != move.piece.toStr()) return false
         if (piece.player !== player) return false
         return true
     }
