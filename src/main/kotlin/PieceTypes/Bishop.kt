@@ -9,7 +9,6 @@ fun tryToMoveBishop(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolea
     if (move.target.row === move.cur.row && move.target.column === move.cur.column) return false
 
     //A valid movement occurs when the
-    val x = board[move.target.row.n][move.target.column.n]
     if(board[move.target.row.n][move.target.column.n] !== null) {
         if (player === Board.Player.WHITE && board[move.target.row.n][move.target.column.n]!!.player === Board.Player.BLACK
             && abs(move.cur.row.n - move.target.row.n) == abs(move.cur.column.n - move.target.column.n)) return true

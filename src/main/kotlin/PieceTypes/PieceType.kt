@@ -1,4 +1,5 @@
 import PieceTypes.tryToMoveBishop
+import PieceTypes.tryToMoveKnight
 import PieceTypes.tryToMoveRook
 
 /**
@@ -17,7 +18,7 @@ class King: PieceType()
 fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     return when(this) {
         is Pawn -> tryToMovePawn(move,board)
-        //is Knight -> tryToMoveKnight(move)
+        is Knight -> tryToMoveKnight(move,board)
         is Bishop -> tryToMoveBishop(move,board)
         is Rook -> tryToMoveRook(move,board)
         // is Queen -> tryToMoveQueen(move)
