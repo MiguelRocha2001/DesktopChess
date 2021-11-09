@@ -29,5 +29,4 @@ class RookTest {
                     " PPPPPPP"+
                     " NBQKBNR", sut.toString() )
     }
-
 }

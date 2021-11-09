@@ -25,8 +25,12 @@ private fun checksDiagonalForward(move: Board.Move, board: Array<Array<Board.Pie
     // if the player tries to go forward-left
     if (colDif == -1 && rowDif == 1) {
         // if there's a Piece on the forward-left square
-        if (player===Board.Player.WHITE && board[move.cur.row.n + 1][move.cur.column.n - 1] != null) return true
-        if (player===Board.Player.BLACK && board[move.cur.row.n - 1][move.cur.column.n + 1] != null) return true
+        if (player===Board.Player.WHITE && board[move.cur.row.n+1][move.cur.column.n-1] != null
+            && board[move.cur.row.n+1][move.cur.column.n-1]!!.player===Board.Player.BLACK)
+            return true
+        if (player===Board.Player.BLACK && board[move.cur.row.n-1][move.cur.column.n+1] != null
+            && board[move.cur.row.n+1][move.cur.column.n-1]!!.player===Board.Player.WHITE)
+            return true
     }
     // if the player tries to go forward-right
     if (colDif == 1 && rowDif == 1) {
