@@ -14,6 +14,7 @@ fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
  * Returns false if there inst already a piece there
  */
 private fun checksDiagonalForward(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
+    //Pode ser escrito numa função é código repetido
     val player = board[move.cur.row.n][move.cur.column.n]!!.player
     var rowDif = move.target.row.n - move.cur.row.n
     var colDif = move.target.column.n - move.cur.column.n

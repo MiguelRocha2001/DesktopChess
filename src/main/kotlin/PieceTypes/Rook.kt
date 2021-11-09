@@ -18,10 +18,6 @@ private fun tryToMoveHorizontal(move: Board.Move, board: Array<Array<Board.Piece
     // if the player tries to move vertically
     if (rowDif == 0) {
         if (colDif > 0) {
-            for (i in move.cur.row.n+1 until move.target.row.n) {
-                if (board[move.cur.row.n][i] != null)
-                    return false
-            }
             // if can eat
             if (player===Board.Player.WHITE && board[move.target.row.n][move.target.column.n]!!.player===Board.Player.BLACK) return true
             if (player===Board.Player.BLACK && board[move.target.row.n][move.target.column.n]!!.player===Board.Player.WHITE) return true
