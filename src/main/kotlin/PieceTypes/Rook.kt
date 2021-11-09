@@ -8,12 +8,12 @@ fun tryToMoveRook(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
 }
 
 private fun tryToMoveHorizontal(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
+    val player = board[move.cur.row.n][move.cur.column.n]!!.player
     var colDif = move.target.column.n - move.cur.column.n
-    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.BLACK) {
-        //asserts values
+    if (player===Board.Player.BLACK) {
         colDif = -colDif
     }
-    // if the player tries to go forward
+    // if the player tries to MOVE vertically
     if (colDif == 0) {
         for (i in move.cur.column.n..move.target.column.n) {
             if (board[i][move.cur.column.n] != null)
@@ -24,12 +24,12 @@ private fun tryToMoveHorizontal(move: Board.Move, board: Array<Array<Board.Piece
 }
 
 private fun tryToMoveVertical(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
+    val player = board[move.cur.row.n][move.cur.column.n]!!.player
     var rowDif = move.target.row.n - move.cur.row.n
-    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.BLACK) {
-        //asserts values
+    if (player===Board.Player.BLACK) {
         rowDif = -rowDif
     }
-    // if the player tries to go forward
+    // if the player tries to MOVE horizontally
     if (rowDif == 0) {
         for (i in move.cur.row.n..move.target.row.n) {
             if (board[i][move.cur.column.n] != null)

@@ -7,7 +7,6 @@ fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
     if (move.target.row === move.cur.row && move.target.column === move.cur.column) return false
     if (checksDiagonalForward(move,board)) return true
     return checksForward(move,board)
-    return false
 }
 
 /**
@@ -15,19 +14,26 @@ fun tryToMovePawn(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean 
  * Returns false if there inst already a piece there
  */
 private fun checksDiagonalForward(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
-    val rowDif = move.target.row.n - move.cur.row.n
+    val player = board[move.cur.row.n][move.cur.column.n]!!.player
+    var rowDif = move.target.row.n - move.cur.row.n
     var colDif = move.target.column.n - move.cur.column.n
-    val rowDifAbs = kotlin.math.abs(rowDif)
-    var colDifAbs = kotlin.math.abs(colDif)
+    if (player===Board.Player.BLACK) {
+        rowDif = -rowDif
+        colDif = -colDif
+    }
 
     // if the player tries to go forward-left
-    if (colDifAbs == -1 && rowDifAbs == 1)
-    // if there's a Piece on the forward-left square
-        if (board[move.cur.row.n + 1][move.cur.column.n - 1] != null) return true
+    if (colDif == -1 && rowDif == 1) {
+        // if there's a Piece on the forward-left square
+        if (player===Board.Player.WHITE && board[move.cur.row.n + 1][move.cur.column.n - 1] != null) return true
+        if (player===Board.Player.BLACK && board[move.cur.row.n - 1][move.cur.column.n + 1] != null) return true
+    }
     // if the player tries to go forward-right
-    if (colDifAbs == 1 && rowDif == 1)
-    // if there's a Piece on the forward-right
-        if (board[move.cur.row.n + 1][move.cur.column.n + 1] != null) return true
+    if (colDif == 1 && rowDif == 1) {
+        // if there's a Piece on the forward-right
+        if (player===Board.Player.WHITE && board[move.cur.row.n + 1][move.cur.column.n + 1] != null) return true
+        if (player===Board.Player.BLACK && board[move.cur.row.n - 1][move.cur.column.n - 1] != null) return true
+    }
     return false
 }
 
@@ -35,24 +41,27 @@ private fun checksDiagonalForward(move: Board.Move, board: Array<Array<Board.Pie
  * Checks if the given Move tried to move a Pawn in a valid forward direction.
  */
 private fun checksForward(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
+    val player = board[move.cur.row.n][move.cur.column.n]!!.player
     var rowDif = move.target.row.n - move.cur.row.n
-    if (board[move.cur.row.n][move.cur.column.n]!!.player === Board.Player.BLACK)
-        //asserts value
+    var colDif = move.target.column.n - move.cur.column.n
+    if (player===Board.Player.BLACK) {
         rowDif = -rowDif
+        colDif = -colDif
+    }
 
     // if the player tries to go forward
-    if (rowDif > 0 && move.target.column === move.cur.column) {
+    if (rowDif > 0 && colDif == 0) {
         // if the player tries to go forward 2 steps
         if (rowDif == 2) {
             val pawn = board[move.cur.row.n][move.cur.column.n]!!.type as Pawn
             if (!pawn.hasPlayed)
-            // if there isn't already a piece there
                 if (board[move.target.row.n][move.target.column.n] == null) return true
         }
         // if the player tries to go forward 1 step
         if (rowDif == 1) {
             // if there isn't already a piece there
-            if (board[move.cur.row.n + 1][move.cur.column.n] == null) return true
+            if (player===Board.Player.WHITE && board[move.cur.row.n + 1][move.cur.column.n] == null) return true
+            if (player===Board.Player.WHITE && board[move.cur.row.n - 1][move.cur.column.n] == null) return true
         }
     }
     return false
