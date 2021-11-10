@@ -1,7 +1,7 @@
 package DataBase
 
+import Move
 import Player
-import org.apache.logging.log4j.message.Message
 
 /**
  * Show all messages from billboard posted by the specified author or by all authors.
@@ -9,12 +9,14 @@ import org.apache.logging.log4j.message.Message
  * @param billboard to access Billboard operations
  * @param authorId the author of messages or null for all authors
  */
-fun getMessage(billboard: ChessDb, authorId: String?) {
-    // action
-    val messages = getMessageAction(billboard, authorId)
-    // show
-    messages.forEach(::println)
+fun getMoves(chessDb: ChessDb, authorId: String) = getMovesAction(chessDb, authorId)
+
+
+fun postMoves(billboard: ChessDb, player: Player, moves: List<String>) {
+    moves.forEach{move -> postMove(billboard,player,move)}
 }
+
+//-------------------------------------------------------------------------------------
 
 /**
  * Post a message by one author to the billboard in MongoDb.
@@ -22,14 +24,14 @@ fun getMessage(billboard: ChessDb, authorId: String?) {
  * PROBLEM: Cannot be tested.
  * @param billboard to access Billboard operations
  * @param player the author of message
- * @param content the content of message, cannot be null.
+ * @param move the content of message, cannot be null.
  */
-fun postMessage(billboard: ChessDb, player: Player, content: String?) {
+private fun postMove(billboard: ChessDb, player: Player, move: String) {
     try {
         // action
-        postMessageAction(billboard,player,content)
+        postMessageAction(billboard,player,move)
         // show
-        println("Message \"$content\" posted by ${player.id}")
+        println("Message \"$move\" posted by ${player.id}")
     } catch (ex: Exception) {
         // Exceptional situations
         println("Error: ${ex.message}.")
@@ -39,14 +41,10 @@ fun postMessage(billboard: ChessDb, player: Player, content: String?) {
 /**
  * Returns messages from billboard posted by the specified author or by all authors.
  * QUESTION: Can throw exceptions?
- * @param billboard to access Billboard operations
- * @param authorId the author of messages or null for all authors
+ * @param chessDb to access Billboard operations
+ * @param playerId the author of messages or null for all authors
  */
-fun getMessageAction(billboard: ChessDb, authorId: String?) =
-    if (authorId != null)
-        billboard.getMessagesByPlayer(Author(authorId))
-    else
-        billboard.getAllMessages()
+private fun getMovesAction(chessDb: ChessDb, playerId: String) = chessDb.getMovesByPlayer(Player(playerId))
 
 /**
  * Post a message by one author to the billboard in MongoDb.
@@ -56,7 +54,6 @@ fun getMessageAction(billboard: ChessDb, authorId: String?) =
  * @throws IllegalArgumentException if there is no content.
  * @throws IllegalStateException if post failed
  */
-fun postMessageAction(billboard: ChessDb, author: Player, content: String?) {
-    require(content!=null) { "Missing content" }
-    check(billboard.postMessage(Message(author,content))) { "Post failed" }
+private fun postMessageAction(billboard: ChessDb, author: Player, content: String) {
+    check(billboard.postMoves(Move(author,content))) { "Post failed" }
 }

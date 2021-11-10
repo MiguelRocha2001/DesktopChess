@@ -1,5 +1,6 @@
-
 import DataBase.MongoChessCommands
+import DataBase.getMoves
+import DataBase.postMoves
 import mongoDb.MongoDriver
 
 /**
@@ -10,7 +11,8 @@ val moves = mutableListOf<String>()
 
 fun main() {
     var board = Board()
-    var player = readPlayerId()
+    val player: Player = readPlayerId()
+    // if the current player has any game on the database
     if (checkPlayerMoves(player))
         board = restoreGame(player)
     while (true) {
@@ -22,52 +24,33 @@ fun main() {
             moves.add(move)
         }
     }
+    saveGame(player, moves)
+}
+
+fun saveGame(player: Player, moves: List<String>) {
+    MongoDriver().use { driver ->
+        val commands = MongoChessCommands(driver)
+        postMoves(commands,player,moves)
+    }
 }
 
 fun checkPlayerMoves(player: Player): Boolean {
     MongoDriver().use { driver ->
-        if (driver.getCollection(player.id))
+        val commands = MongoChessCommands(driver)
+        val moves = getMoves(commands,player.id) as List<Move>
+        return moves.isEmpty()
     }
 }
 
 
-private fun restoreGame(playerId: Player): Board {
-    var newGame = Board()
+private fun restoreGame(player: Player): Board {
+    val newGame = Board()
     MongoDriver().use{ driver ->
         val commands = MongoChessCommands(driver)
-        val moves: Iterable<Move> = commands.getMessagesByPlayer(playerId)
-        moves.forEach{ move -> newGame.makeMoveWithCorrectString(move.getContent())}
+        val move: Iterable<Move> = getMoves(commands,player.id)
+        move.forEach{ move -> newGame.makeMoveWithCorrectString(move.getMove())}
     }
     return newGame
-}
-
-
-/**
- * Command line after is parsed.
- * first: name of command in uppercase.
- * second: optional parameter (one or more words)
- */
-typealias LineCommand = Pair<String, String?>
-
-/**
- * Reads and parses a command line after write the prompt.
- * @return command parsed
- */
-fun readCommand(): LineCommand {
-    print("> ")
-    return readln().parseCommand()
-}
-
-/**
- * Parses a string to extract a command.
- * Pure function to be tested.
- * @return command parsed.
- */
-fun String.parseCommand(): LineCommand {
-    val line = this.trim()
-    val cmd = line.substringBefore(' ').uppercase()
-    val param = line.substringAfter(' ',"").ifBlank { null }
-    return cmd to param
 }
 
 /**
@@ -87,4 +70,4 @@ fun readPlayerId(): Player {
  * While we don't have the 1.6 version of the Kotlin library.
  */
 fun readln() = readLine()!!
-fun readlnOrNull() = readLine()
+

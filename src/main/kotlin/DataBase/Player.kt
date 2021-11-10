@@ -27,8 +27,8 @@ fun String.toPlayerOrNull() = if (isValidPlayerId(this)) Player(this) else null
  * @property author   message author
  * @property content  message content
  */
-data class Move(val player: Player, val content:String) {
+data class Move(val player: Player, val content: String) {
     init { require(content.isNotBlank()) }
-    fun getContent() = this.content
+    fun getMove() = content
     override fun toString() = "${player.id}: $content"
 }

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebf2e719-7040-4f83-869d-fb44a11b19a0" name="Changes" comment="" />
+    <list default="true" id="ebf2e719-7040-4f83-869d-fb44a11b19a0" name="Changes" comment="DataBase in work phase">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Chess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Chess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/ChessDb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/ChessDb.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/Commands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/Commands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/Player.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/Player.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,12 +45,15 @@
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectId" id="20h4g06Sr2ql39nbheUymfgxqz7" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -179,8 +188,16 @@
       <option name="presentableId" value="Default" />
       <updated>1636483592641</updated>
       <workItem from="1636483594035" duration="10976000" />
-      <workItem from="1636575759027" duration="299000" />
+      <workItem from="1636575759027" duration="3325000" />
     </task>
+    <task id="LOCAL-00001" summary="DataBase in work phase">
+      <created>1636576203444</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1636576203444</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +208,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="Chess.kt_added" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -199,8 +228,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="fixup! Pawn movement in work. Rook in work" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixup! Pawn movement in work. Rook in work" />
+    <MESSAGE value="DataBase in work phase" />
+    <option name="LAST_COMMIT_MESSAGE" value="DataBase in work phase" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
