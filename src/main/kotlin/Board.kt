@@ -74,6 +74,27 @@ class Board {
         return str
     }
 
+    fun toStr(): String {
+        var str = "  a  b  c  d  e  f  g  h \n  ------------------------- \n"
+        for (line in board.indices.reversed()) {
+            str += ""+(line+1)+"|"
+            for (piece in board[line]) {
+                str += " "
+                if (piece != null) {
+                    str += if (piece.player == Player.BLACK)
+                        piece.type.toStr().lowercase(Locale.getDefault())
+                    else
+                        piece.type.toStr()
+                    str += ' '
+                }
+                else str += "  "
+            }
+            str += "|\n"
+        }
+        str += "  -------------------------"
+        return str
+    }
+
     /**
      * Durante o jogo guarda-se os estados do jogo através de uma lista de Move().
      * Na base de dados guarda-se as jogadas ocurridas (sempre válidas) no tipo String
@@ -171,9 +192,12 @@ class Board {
             else -> null
         }
 
-    /*private fun checkGameOver(): Boolean {
+    /*
+    private fun checkGameOver(): Boolean {
 
-    }*/
+    }
+
+     */
 
 }
 
