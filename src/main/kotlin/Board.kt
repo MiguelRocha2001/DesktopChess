@@ -1,3 +1,5 @@
+import chess.model.Column
+import chess.model.Square
 import java.util.*
 
 class Board {
@@ -7,16 +9,13 @@ class Board {
     enum class Player { WHITE, BLACK;
         fun advance() = if (this === WHITE) BLACK else WHITE
     }
-    enum class Column(val n: Int) {A(0), B(1), C(2), D(3), E(4), F(5), G(6), H(7)}
-    enum class Row(val n: Int) {ONE(0), TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5), SEVEN(6), EIGHT(7)}
-    class Square(val column: Column, val row: Row)
+
     class Piece(val type: PieceType, val player: Player)
     class Move(val piece: PieceType, val cur: Square, val target: Square)
 
     private val LINES = 8
     private val COLS = 8
     private val board: Array<Array<Piece?>>
-
 
     constructor() {
         board = Array(LINES) { Array(COLS) { null } }
@@ -60,20 +59,38 @@ class Board {
      */
     override fun toString(): String {
         var str = ""
-        for (line in board.indices.reversed()) {
-            for (piece in board[line]) {
-                if (piece != null) {
-                    str += if (piece.player == Player.BLACK)
-                        piece.type.toStr().lowercase(Locale.getDefault())
-                    else
-                        piece.type.toStr()
-                }
-                else str += ' '
-            }
+        for (square in Square.values) {
+            val piece = board[square.row.ordinal][square.column.ordinal]
+            if (piece != null) {
+                var aux = piece.type.toStr()
+                if (piece.player == Player.BLACK)
+                    aux = aux.lowercase(Locale.getDefault())
+                str += aux
+            } else str += ' '
         }
         return str
     }
 
+<<<<<<< Updated upstream
+=======
+    fun toStr(): String {
+        var str = "  a  b  c  d  e  f  g  h \n  ------------------------- \n"
+        for (square in Square.values) {
+            val piece = board[square.row.ordinal][square.column.ordinal]
+            str += " "
+            if (piece != null) {
+                var aux = piece.type.toStr()
+                if (piece.player == Player.BLACK)
+                    aux = aux.lowercase(Locale.getDefault())
+                str += aux
+            } else str += ' '
+            // TODO -> add a new line '\n' to [str] for every line iterated
+        }
+        str += "  -------------------------"
+        return str
+    }
+
+>>>>>>> Stashed changes
     /**
      * Durante o jogo guarda-se os estados do jogo através de uma lista de Move().
      * Na base de dados guarda-se as jogadas ocurridas (sempre válidas) no tipo String
@@ -126,7 +143,7 @@ class Board {
      */
     private fun isValidSquare(move: Move): Boolean {
         val player = if (!currentPlayer) Player.WHITE else Player.BLACK
-        val piece = board[move.cur.row.n][move.cur.column.n] ?: return false
+        val piece = board[move.cur.row.ordinal][move.cur.column.ordinal] ?: return false
         if (piece.type.toStr() != move.piece.toStr()) return false
         if (piece.player !== player) return false
         return true

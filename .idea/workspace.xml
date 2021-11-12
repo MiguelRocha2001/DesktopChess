@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="ebf2e719-7040-4f83-869d-fb44a11b19a0" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/kotlin/PieceTypes/Knight.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/test/kotlin/KnightTest.kt" afterDir="false" />
@@ -146,6 +147,20 @@
       <change beforePath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/test-results/test/binary/results.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/PieceTypes/Bishop.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/PieceTypes/Bishop.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/PieceTypes/PieceType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/PieceTypes/PieceType.kt" afterDir="false" />
+=======
+    <list default="true" id="ebf2e719-7040-4f83-869d-fb44a11b19a0" name="Changes" comment="DataBase done but no testing made">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/Column.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/Row.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/model/Square.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Board.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Board.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Chess.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Chess.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/ChessDb.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/ChessDb.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/Commands.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/Commands.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataBase/Player.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataBase/Game.kt" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,11 +203,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/kotlin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\migas\Repositórios Git Hub\DesktopChess\src\main\kotlin" />
+    </key>
   </component>
   <component name="RunManager" selected="Gradle.KnightTest">
     <configuration name="BishopTest.Move pieces to eat others" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -319,7 +339,29 @@
       <option name="presentableId" value="Default" />
       <updated>1636483592641</updated>
       <workItem from="1636483594035" duration="10976000" />
+<<<<<<< Updated upstream
     </task>
+=======
+      <workItem from="1636575759027" duration="4121000" />
+      <workItem from="1636629206411" duration="974000" />
+      <workItem from="1636710204233" duration="6308000" />
+    </task>
+    <task id="LOCAL-00001" summary="DataBase in work phase">
+      <created>1636576203444</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1636576203444</updated>
+    </task>
+    <task id="LOCAL-00002" summary="DataBase done but no testing made">
+      <created>1636579172431</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1636579172431</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,6 +377,17 @@
         </entry>
       </map>
     </option>
+<<<<<<< Updated upstream
+=======
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="fixup! Pawn movement in work. Rook in work" />
+    <MESSAGE value="DataBase in work phase" />
+    <MESSAGE value="DataBase done but no testing made" />
+    <option name="LAST_COMMIT_MESSAGE" value="DataBase done but no testing made" />
+>>>>>>> Stashed changes
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
