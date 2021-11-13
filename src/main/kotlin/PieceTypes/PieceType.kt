@@ -15,6 +15,7 @@ class Rook: PieceType()
 class Queen: PieceType()
 class King: PieceType()
 
+// TODO -> VERIFICAR OS SINAIS NAS FUNÇÕES ABAIXO
 fun PieceType.canItMove(move: Board.Move, board: Array<Array<Board.Piece?>>): Boolean {
     return when(this) {
         is Pawn -> tryToMovePawn(move,board)

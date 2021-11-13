@@ -23,4 +23,19 @@ class KnightTest {
                     "P PPPPPP"+
                     "RN QKBNR", sut.toString() )
     }
+
+    @Test
+    fun `Moves Knight`() {
+        val sut = Board()
+            .makeMove("Nb1c3")!!
+        assertEquals(
+             "rnbqkbnr"+
+                    "pppppppp"+
+                    "        "+
+                    "        "+
+                    "        "+
+                    "  N     "+
+                    "PPPPPPPP"+
+                    "R BQKBNR", sut.toString() )
+    }
 }

@@ -6,8 +6,13 @@ class Square(val column: Column, val row: Row) {
 
         fun values(): List<Square> {
             val list = emptyList<Square>().toMutableList()
+<<<<<<< Updated upstream
             for (col in Column.values()) {
                 for (row in Row.values()) {
+=======
+            for (row in Row.values()) {
+                for (col in Column.values()) {
+>>>>>>> Stashed changes
                     list += Square(col,row)
                 }
             }

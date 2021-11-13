@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 import chess.model.Column
 import chess.model.Square
+=======
+import chess.model.*
+>>>>>>> Stashed changes
 import java.util.*
 
 class Board {
@@ -11,7 +15,7 @@ class Board {
     }
 
     class Piece(val type: PieceType, val player: Player)
-    class Move(val piece: PieceType, val cur: Square, val target: Square)
+    class Move(val piece: PieceType, val curSquare: Square, val newSquare: Square)
 
     private val LINES = 8
     private val COLS = 8
@@ -26,7 +30,6 @@ class Board {
         this.board = board
     }
 
-
     /**
      * Initiates the board
      */
@@ -36,26 +39,28 @@ class Board {
     }
 
     private fun initPlayer(player: Player) {
-        var firstRow = 0
-        var secondRow = firstRow+1
+        var firstRow = Row.ONE.ordinal
+        var currCol = Column.A.ordinal
+        var secondRow = Row.TWO.ordinal
         if (player == Player.BLACK){
-            firstRow = LINES-1
-            secondRow = firstRow-1
+            firstRow = Row.EIGHT.ordinal
+            secondRow = Row.SEVEN.ordinal
         }
-        board[firstRow][0] = Piece(Rook(),player)
-        board[firstRow][1] = Piece(Knight(),player)
-        board[firstRow][2] = Piece(Bishop(), player)
-        board[firstRow][3] = Piece(Queen(), player)
-        board[firstRow][4] = Piece(King(), player)
-        board[firstRow][5] = Piece(Bishop(), player)
-        board[firstRow][6] = Piece(Knight(), player)
-        board[firstRow][7] = Piece(Rook(), player)
+        board[firstRow][currCol++] = Piece(Rook(),player)
+        board[firstRow][currCol++] = Piece(Knight(),player)
+        board[firstRow][currCol++] = Piece(Bishop(), player)
+        board[firstRow][currCol++] = Piece(Queen(), player)
+        board[firstRow][currCol++] = Piece(King(), player)
+        board[firstRow][currCol++] = Piece(Bishop(), player)
+        board[firstRow][currCol++] = Piece(Knight(), player)
+        board[firstRow][currCol] = Piece(Rook(), player)
         for (i in 0..7)
             board[secondRow][i] = Piece(Pawn(),player)
     }
 
     /**
      * Converts the current state of the game in a String
+     * Square.values.joinToString
      */
     override fun toString(): String {
         var str = ""
@@ -124,15 +129,13 @@ class Board {
     /**
      * recebe uma string e retorna um tipo MOVE() que tem a jogada com as coordenadas iniciais e finais e a peça
      */
-    fun toMoveOrNull(move: String): Move? {
-        val row = move.trim()
-        val currCol = getColumn(row[1])
-        val currRow = getRow(row[2])
-        val newCol = getColumn(row[3])
-        val newRow = getRow(row[4])
-        val pieceType = getPieceType(move[0])
-        if (currCol == null || currRow == null || newCol == null || newRow == null || pieceType == null) return null
-        val move = Move(pieceType,Square(currCol,currRow),Square(newCol,newRow))
+    private fun toMoveOrNull(str: String): Move? {
+        val cmd = str.trim()
+        val pieceType = getPieceType(cmd[0])
+        val currSquare = cmd.substring(1,3).toSquareOrNull()
+        val newSquare = cmd.substring(3,5).toSquareOrNull()
+        if (currSquare == null || newSquare == null || pieceType == null) return null
+        val move = Move(pieceType,currSquare,newSquare)
         if (!isValidSquare(move)) return null
         return move
     }
@@ -143,7 +146,11 @@ class Board {
      */
     private fun isValidSquare(move: Move): Boolean {
         val player = if (!currentPlayer) Player.WHITE else Player.BLACK
+<<<<<<< Updated upstream
         val piece = board[move.cur.row.ordinal][move.cur.column.ordinal] ?: return false
+=======
+        val piece = board[move.curSquare.row.ordinal][move.curSquare.column.ordinal] ?: return false
+>>>>>>> Stashed changes
         if (piece.type.toStr() != move.piece.toStr()) return false
         if (piece.player !== player) return false
         return true
@@ -155,14 +162,15 @@ class Board {
      */
     private fun makeMove(move: Move): Board? {
         if (!move.piece.canItMove(move,board)) return null
-        val piece = board[move.cur.row.n][move.cur.column.n]
+        val piece = board[move.curSquare.row.ordinal][move.curSquare.column.ordinal]
         val newBoard = board.clone()
-        board[move.cur.row.n][move.cur.column.n] = null
-        newBoard[move.target.row.n][move.target.column.n] = piece
+        board[move.curSquare.row.ordinal][move.curSquare.column.ordinal] = null
+        newBoard[move.newSquare.row.ordinal][move.newSquare.column.ordinal] = piece
         currentPlayer = !currentPlayer
         return Board(newBoard)
     }
 
+<<<<<<< Updated upstream
     fun getColumn(column: Char) =
         when(column) {
             'a' -> Column.A
@@ -192,5 +200,7 @@ class Board {
 
     }*/
 
+=======
+>>>>>>> Stashed changes
 }
 

@@ -42,7 +42,10 @@ fun checkPlayerMoves(game: Game): Boolean {
     }
 }
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 private fun restoreGame(game: Game): Board {
     val newGame = Board()
     MongoDriver().use{ driver ->

@@ -6,7 +6,11 @@ import kotlin.test.assertEquals
 class BishopTest {
     @Test
     fun `Moves some Pieces`() {
-        val sut = Board().makeMove("Pb2b3")!!.makeMove("Pb7b5")!!.makeMove("Bc1b2")!!.makeMove("Bc8b7")!!.makeMove("Bb2c3")
+        val sut = Board().makeMove("Pb2b3")!!
+            .makeMove("Pb7b5")!!
+            .makeMove("Bc1b2")!!
+            .makeMove("Bc8b7")!!
+            .makeMove("Bb2c3")
         assertEquals(
             "rn qkbnr"+
                     "pbpppppp"+
