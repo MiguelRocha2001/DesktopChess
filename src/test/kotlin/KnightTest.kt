@@ -1,26 +1,24 @@
+import model.Board
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class KnightTest {
     @Test
-    fun `Moves some Pieces`() {
+    fun `Moves Knight`() {
         val sut = Board()
-            .makeMove("Pb2b3")!!
-            .makeMove("Pb7b5")!!
-            .makeMove("Bc1b2")!!
-            .makeMove("Bc8b7")!!
-            .makeMove("Bb2c3")!!
-            .makeMove("Nb8a6")!!
-            .makeMove("Pb3b4")!!
-            .makeMove("Na6b4")!!
+            .makeMove("Nb1c3")!!.first//W
+            .makeMove("Nb8a6")!!.first
+            .makeMove("Nc3d5")!!.first//W
+            .makeMove("Na6c5")!!.first
+
         assertEquals(
-            "r  qkbnr"+
-                    "pbpppppp"+
+            "r bqkbnr"+
+                    "pppppppp"+
                     "        "+
-                    " p      "+
-                    " n      "+
-                    "  B     "+
-                    "P PPPPPP"+
-                    "RN QKBNR", sut.toString() )
+                    "  nN    "+
+                    "        "+
+                    "        "+
+                    "PPPPPPPP"+
+                    "R BQKBNR", sut.toStringTest() )
     }
 }

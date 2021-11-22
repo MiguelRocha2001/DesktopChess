@@ -1,4 +1,5 @@
 import junit.framework.Assert.assertEquals
+import model.Board
 import org.junit.Test
 
 class General {
@@ -10,7 +11,7 @@ class General {
                     "pppppppp"+
                     "        ".repeat(4) +
                     "PPPPPPPP"+
-                    "RNBQKBNR", sut.toString() )
+                    "RNBQKBNR", sut.toStringTest() )
     }
 
     @Test
@@ -24,7 +25,7 @@ class General {
                     "    P   "+
                     "  N     "+
                     "PPPP PPP"+
-                    "R BQKBNR", sut.toString() )
+                    "R BQKBNR", sut.toStringTest() )
     }
 
 }

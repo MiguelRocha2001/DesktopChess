@@ -1,36 +1,43 @@
 package DataBase
 
 
-import Move
-import Player
+import Moves
 import mongoDb.*
 
 /**
- * The billboard basic operations.
+ * The Chess basic operations.
  * Contract to be implemented by any concrete database.
  */
 interface ChessDb {
     /**
-     * Posts the [message] to the billboard
-     * @param message   the message to be posted
+     * replaces the moves in another document by [move]
      */
-    fun postMoves(move: Move): Boolean
+    fun replaceDocument(move: Moves): Boolean
+
     /**
-     * Gets all messages posted on the billboard by [author]
-     * @param [author] the author
-     * @return  the messages from the given author
+     * Posts the [moves] in a document
      */
-    fun getMovesByPlayer(moves: Player): Iterable<Move>
+    fun insertDocument(moves: Moves): Boolean
+    /**
+     * Retrieves the document identified by [gameId]
+     */
+    fun getDocument(gameId: String): Moves?
 }
 
 /**
- * Implements the billboard operations using a MongoDB instance.
+ * Implements the chess operations using a MongoDB instance.
  * @property driver to access MongoDb
  */
 class MongoChessCommands(val driver: MongoDriver): ChessDb {
-    override fun postMoves(move: Move) =
-        driver.getCollection<Move>(move.player.id).insertDocument(move)
+    // Name of the collection that holds all the chess games
+    val COLLECTION = "Chess"
 
-    override fun getMovesByPlayer(player: Player) =
-        driver.getCollection<Move>(player.id).getAllDocuments()
+   override fun replaceDocument(moves: Moves) =
+        driver.getCollection<Moves>(COLLECTION).replaceDocument(moves)
+
+    override fun insertDocument(moves: Moves) =
+        driver.getCollection<Moves>(COLLECTION).insertDocument(moves)
+
+    override fun getDocument(gameId: String) = driver.getCollection<Moves>(COLLECTION).getDocument(gameId)
+
 }

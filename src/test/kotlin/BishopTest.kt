@@ -1,39 +1,29 @@
-import org.junit.Assert
+import model.Board
+import model.Player
 import org.junit.Test
 import kotlin.test.assertEquals
 
 
 class BishopTest {
     @Test
-    fun `Moves some Pieces`() {
-        val sut = Board().makeMove("Pb2b3")!!.makeMove("Pb7b5")!!.makeMove("Bc1b2")!!.makeMove("Bc8b7")!!.makeMove("Bb2c3")
+    fun `Move Bishop all possible ways`() {
+        val sut = Board().makeMove("Pd2d4",Player.WHITE)!!.first//W
+            .makeMove("Pd7d5",Player.BLACK)!!.first
+            .makeMove("Bc1e3",Player.WHITE)!!.first//W
+            .makeMove("Pa7a6",Player.BLACK)!!.first
+            .makeMove("Be3d2",Player.WHITE)!!.first//W
+            .makeMove("Pa6a5",Player.BLACK)!!.first
+            .makeMove("Bd2b4",Player.WHITE)!!.first//W
+            .makeMove("Pa5a4",Player.BLACK)!!.first
+            .makeMove("Bb4c3",Player.WHITE)!!.first//W
         assertEquals(
-            "rn qkbnr"+
-                    "pbpppppp"+
+            "rnbqkbnr"+
+                    " pp pppp"+
                     "        "+
-                    " p      "+
-                    "        "+
-                    " PB     "+
-                    "P PPPPPP"+
-                    "RN QKBNR", sut.toString() )
-    }
-
-    @Test
-    fun `Move pieces to eat others`() {
-        val sut = Board().makeMove("Pb2b3")!!
-            .makeMove("Pb7b5")!!
-            .makeMove("Bc1b2")!!
-            .makeMove("Bc8b7")!!
-            .makeMove("Bb2g7")!!
-            .makeMove("Bb7g2")!!
-        assertEquals(
-            "rn qkbnr"+
-                    "p ppppBp"+
-                    "        "+
-                    " p      "+
-                    "        "+
-                    " P      "+
-                    "P PPPPbP"+
-                    "RN QKBNR", sut.toString())
+                    "   p    "+
+                    "p  P    "+
+                    "  B     "+
+                    "PPP PPPP"+
+                    "RN QKBNR", sut.toStringTest() )
     }
 }

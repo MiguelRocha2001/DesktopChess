@@ -1,59 +1,29 @@
 package DataBase
 
-import Move
-import Player
+import Moves
 
 /**
- * Show all messages from billboard posted by the specified author or by all authors.
- * PROBLEM: Cannot be tested.
- * @param billboard to access Billboard operations
- * @param authorId the author of messages or null for all authors
+ * Retrieves the document with the [gameId].
  */
-fun getMoves(chessDb: ChessDb, authorId: String) = getMovesAction(chessDb, authorId)
-
-
-fun postMoves(billboard: ChessDb, player: Player, moves: List<String>) {
-    moves.forEach{move -> postMove(billboard,player,move)}
-}
-
-//-------------------------------------------------------------------------------------
-
-/**
- * Post a message by one author to the billboard in MongoDb.
- * Show the result of the operation.
- * PROBLEM: Cannot be tested.
- * @param billboard to access Billboard operations
- * @param player the author of message
- * @param move the content of message, cannot be null.
- */
-private fun postMove(billboard: ChessDb, player: Player, move: String) {
-    try {
-        // action
-        postMessageAction(billboard,player,move)
-        // show
-        println("Message \"$move\" posted by ${player.id}")
+fun getMoves(chessDb: ChessDb, gameId: String): Moves? {
+    return try {
+        chessDb.getDocument(gameId)
     } catch (ex: Exception) {
-        // Exceptional situations
-        println("Error: ${ex.message}.")
+        null
     }
 }
 
 /**
- * Returns messages from billboard posted by the specified author or by all authors.
- * QUESTION: Can throw exceptions?
- * @param chessDb to access Billboard operations
- * @param playerId the author of messages or null for all authors
+ * Posts a new document containing the [content] String with the [gameId] associated
  */
-private fun getMovesAction(chessDb: ChessDb, playerId: String) = chessDb.getMovesByPlayer(Player(playerId))
+fun postMoves(chessDb: ChessDb, gameId: String, content: String) {
+    check(chessDb.insertDocument(Moves(gameId, content))) { "Post failed" }
+}
 
 /**
- * Post a message by one author to the billboard in MongoDb.
- * @param billboard to access Billboard operations
- * @param author the author of message
- * @param content the content of message, cannot be null.
- * @throws IllegalArgumentException if there is no content.
- * @throws IllegalStateException if post failed
+ * Replaces the content in the specific document given by the [gameId]
  */
-private fun postMessageAction(billboard: ChessDb, author: Player, content: String) {
-    check(billboard.postMoves(Move(author,content))) { "Post failed" }
+fun replaceMoves(chessDb: ChessDb, gameId: String, content: String) {
+    check(chessDb.replaceDocument(Moves(gameId, content))) { "Post failed" }
 }
+
